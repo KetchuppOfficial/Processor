@@ -4,14 +4,14 @@
 
 #define DEBUG 0
 
-extern const char *CMD_FILE_NAME;
 extern FILE *LOG_FILE;
 
-struct Token *Read_Asm (int *n_tokens)
+struct Token *Read_Asm (int *n_tokens, const char *cmd_file_name)
 {
-    MY_ASSERT (n_tokens, "int *n_tokens", NULL_PTR, NULL);
+    MY_ASSERT (n_tokens,      "int *n_tokens",             NULL_PTR, NULL);
+    MY_ASSERT (cmd_file_name, "const char *cmd_file_name", NULL_PTR, NULL);
     
-    FILE *cmd_file = Open_File (CMD_FILE_NAME, "rb");
+    FILE *cmd_file = Open_File (cmd_file_name, "rb");
 
     long n_symbs = Define_File_Size (cmd_file);
 
@@ -42,7 +42,7 @@ struct Token *Read_Asm (int *n_tokens)
 
     free (buffer);
 
-    Close_File (cmd_file, CMD_FILE_NAME);
+    Close_File (cmd_file, cmd_file_name);
 
     return token_arr;
 }
@@ -119,7 +119,7 @@ int Process_Line (struct Argument *arg)
 
     if (arg->symb_i < arg->n_symbs && arg->str[arg->symb_i] == ';')
         Skip_Comments (arg);
-    else if (!isspace (arg->str[arg->symb_i]))
+    else if (arg->symb_i < arg->n_symbs && !isspace (arg->str[arg->symb_i]))
     {
         Show_Error (arg, "Unexpected symbol");
         MY_ASSERT (false, "Buffer with assembler code", UNEXP_SYMB, ERROR);

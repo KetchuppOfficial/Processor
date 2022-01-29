@@ -1,15 +1,14 @@
 #include "Assembler.h"
 #include "../Log_File.h"
 
-const char *CMD_FILE_NAME = "../Assembler_File.txt";
 const char *BINARY_FILE = "../Binary.bin";
 
-int main (void)
+int main (int argc, char *argv[])
 {
     OPEN_LOG_FILE;
 
     int n_tokens = 0;
-    struct Token *token_arr = Read_Asm (&n_tokens);
+    struct Token *token_arr = Read_Asm (&n_tokens, argv[1]);
     MY_ASSERT(token_arr != NULL, "Read_Asm ()", FUNC_ERROR, ERROR);
 
     if (Make_Binary (token_arr, n_tokens) == ERROR)

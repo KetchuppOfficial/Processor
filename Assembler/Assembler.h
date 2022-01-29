@@ -55,7 +55,7 @@ enum Skip_Modes
     EOL,
     MOL
 };
-struct Token *Read_Asm      (int *n_tokens);
+struct Token *Read_Asm (int *n_tokens, const char *cmd_file_name);
 const char   *Show_CMD_Name (const int cmd_n);
 struct Token *Lexer         (const char *str, const long n_symbs, int *n_tokens);
 
