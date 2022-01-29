@@ -1,0 +1,23 @@
+in       ;1
+pop ax   ;4
+push ax  ;4
+
+call one ;2
+out      ;1
+hlt      ;1
+
+one:
+push ax  ;4
+push 1   ;12
+sub	 ;1
+pop ax   ;4
+push ax  ;4
+push 0   ;12
+ja two   ;2
+ret      ;1
+
+two:
+push ax  ;4
+mul	 ;1
+call one ;2
+ret	 ;1
