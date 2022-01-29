@@ -66,7 +66,6 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
     size_t ip = 0;
 
     int label_i = 0;
-    int pop_num = 0;
 
     for (int i = 0; i < n_tokens; i++)
     {
