@@ -19,6 +19,9 @@ int Make_Binary (const struct Token *token_arr, const int n_tokens)
     char *code = First_Passing (token_arr, n_tokens, label_arr, &n_labels, &code_size);
     MY_ASSERT (code != NULL, "First_Passing ()", FUNC_ERROR, ERROR);
 
+    if (Check_Equal_Labels (label_arr, n_labels) == ERROR)
+        MY_ASSERT (false, "Check_Equal_Labels ()", FUNC_ERROR, ERROR);
+
     if (Second_Passing (token_arr, n_tokens, label_arr, n_labels, code) == ERROR)
         MY_ASSERT (false, "Second_Passing ()", FUNC_ERROR, ERROR);
 
@@ -54,6 +57,29 @@ int Check_If_Pop (const int cmd_num)
 }
 #undef DEFCMD_
 //**************************************************************
+
+#define DEFCMD_(num, name, n_args, code)        \
+do                                              \
+{                                               \
+    if (cmd_num == num)                         \
+    {                                           \
+        if (strcmp (#name, cmd_name) == 0)      \
+            return 1;                           \
+        else                                    \
+            return 0;                           \
+    }                                           \
+}                                               \
+while (0)
+
+int Check_CMD_By_Num (const int cmd_num, const char *cmd_name)
+{
+    #include "../Commands_List.h"
+
+    return 0;
+}
+#undef DEFCMD_
+//**************************************************************
+
 char *First_Passing (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size)
 {
     MY_ASSERT (token_arr, "const struct Token *token_arr", NULL_PTR, NULL);
@@ -137,6 +163,16 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
     *n_labels = label_i;
 
     return code;
+}
+
+int Check_Equal_Labels (const struct Label *label_arr, const int n_labels)
+{
+    for (int i = 0; i < n_labels - 1; i++)
+        for (int j = i + 1; j < n_labels; j++)
+            if (strcmp (label_arr[i].name, label_arr[j].name) == 0)
+                MY_ASSERT (false, "const struct Label *label_arr", EQUAL_LBLS, ERROR);
+
+    return NO_ERRORS;
 }
 
 int Second_Passing (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code)

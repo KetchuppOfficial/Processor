@@ -55,9 +55,9 @@ enum Skip_Modes
     EOL,
     MOL
 };
-struct Token *Read_Asm (int *n_tokens);
-const char *Show_CMD_Name (const int cmd_n);
-struct Token *Lexer    (const char *str, const long n_symbs, int *n_tokens);
+struct Token *Read_Asm      (int *n_tokens);
+const char   *Show_CMD_Name (const int cmd_n);
+struct Token *Lexer         (const char *str, const long n_symbs, int *n_tokens);
 
 int Process_Line   (struct Argument *arg);
 int Process_Name   (struct Argument *arg);
@@ -86,12 +86,12 @@ struct Label
     int  next_cmd_ip;
 };
 
-int  Make_Binary    (const struct Token *token_arr, const int n_tokens);
-char *First_Passing (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size);
-int  Find_Pop_Num   (void);
-int  Second_Passing (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code);
-int  Find_Label     (const struct Label *label_arr, const int n_labels, const char *label_name);
-int Check_If_Pop    (const int cmd_num);
+int  Make_Binary        (const struct Token *token_arr, const int n_tokens);
+char *First_Passing     (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size);
+int  Check_Equal_Labels (const struct Label *label_arr, const int n_labels);
+int  Second_Passing     (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code);
+int  Find_Label         (const struct Label *label_arr, const int n_labels, const char *label_name);
+int  Check_If_Pop       (const int cmd_num);
 //******************************************************************************************************************************************
 
 #endif

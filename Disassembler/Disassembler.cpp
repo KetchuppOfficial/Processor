@@ -33,7 +33,7 @@ int Disassemble (const char *code, const int max_ip)
     char *label_arr = First_Passing (code, max_ip, &n_labels);
     MY_ASSERT (label_arr, "First_Passing ()", FUNC_ERROR, ERROR);
 
-    for (int i = 0; i < n_labels; i++)
+    for (int i = 0; i < n_labels - 1; i++)
         for (int j = i + 1; j < n_labels; j++)
             if (label_arr[i] == label_arr[j])
                 label_arr[i] = 0;

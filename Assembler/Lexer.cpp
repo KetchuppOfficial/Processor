@@ -9,30 +9,6 @@
 extern const char *CMD_FILE_NAME;
 extern FILE *LOG_FILE;
 
-#define Add_Token(arg, type, token)                             \
-do                                                              \
-{                                                               \
-    if (Add_Token_ (arg, type, 1, token) == ERROR)              \
-        MY_ASSERT (false, "Add_Token_ ()", FUNC_ERROR, ERROR);  \
-}                                                               \
-while (0)
-
-#define DEFCMD_(num, name, n_args, code)    \
-do                                          \
-{                                           \
-    if (cmd_n == num)                       \
-        return #name;                       \
-}                                           \
-while (0)
-
-const char *Show_CMD_Name (const int cmd_n)
-{
-    #include "../Commands_List.h"
-
-    return NULL;
-}
-#undef DEFCMD_
-
 struct Token *Read_Asm (int *n_tokens)
 {
     MY_ASSERT (n_tokens, "int *n_tokens", NULL_PTR, NULL);
@@ -72,6 +48,26 @@ struct Token *Read_Asm (int *n_tokens)
 
     return token_arr;
 }
+
+//*************************************************************************
+#if DEBUG == 1
+#define DEFCMD_(num, name, n_args, code)    \
+do                                          \
+{                                           \
+    if (cmd_n == num)                       \
+        return #name;                       \
+}                                           \
+while (0)
+
+const char *Show_CMD_Name (const int cmd_n)
+{
+    #include "../Commands_List.h"
+
+    return NULL;
+}
+#undef DEFCMD_
+#endif
+//*************************************************************************
 
 struct Token *Lexer (const char *str, const long n_symbs, int *n_tokens)
 {
@@ -136,6 +132,14 @@ int Process_Line (struct Argument *arg)
     
     return NO_ERRORS;
 }
+
+#define Add_Token(arg, type, token)                             \
+do                                                              \
+{                                                               \
+    if (Add_Token_ (arg, type, 1, token) == ERROR)              \
+        MY_ASSERT (false, "Add_Token_ ()", FUNC_ERROR, ERROR);  \
+}                                                               \
+while (0)
 
 int Process_Name (struct Argument *arg)
 {
@@ -224,6 +228,34 @@ int Check_N_Args (struct Argument *arg, const int cmd_n)
 #undef DEFCMD_
 //*************************************************************************
 
+int Process_Arg (struct Argument *arg)
+{
+    MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
+    
+    if (isalpha (arg->str[arg->symb_i]) && Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
+    {
+        char arg_arr[MAX_NAME_SIZE] = "";
+
+        int i = 0;
+        for (i = 0; isalpha (arg->str[arg->symb_i]); i++, arg->symb_i++)
+            arg_arr[i] = arg->str[arg->symb_i];
+
+        Add_Token (arg, JMP_ARG, arg_arr);    
+    }
+    else if (Check_If_Push_Pop (arg->token_arr[arg->token_i - 1].value.cmd_num))
+    {
+        if (Get_Brackets (arg) == ERROR)
+            MY_ASSERT (false, "Get_Brackets ()", FUNC_ERROR, ERROR);
+    }
+    else
+    {
+        if (Get_Number (arg) == ERROR)
+            MY_ASSERT (false, "Get_Number ()", FUNC_ERROR, ERROR);
+    }
+
+    return NO_ERRORS;
+}
+
 //*************************************************************************
 #define DEFCMD_(num, name, n_args, code)        \
 do                                              \
@@ -276,34 +308,6 @@ int Check_If_Push_Pop (const int pp_num)
 }
 #undef DEFCMD_
 //*************************************************************************
-
-int Process_Arg (struct Argument *arg)
-{
-    MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
-    
-    if (isalpha (arg->str[arg->symb_i]) && Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
-    {
-        char arg_arr[MAX_NAME_SIZE] = "";
-
-        int i = 0;
-        for (i = 0; isalpha (arg->str[arg->symb_i]); i++, arg->symb_i++)
-            arg_arr[i] = arg->str[arg->symb_i];
-
-        Add_Token (arg, JMP_ARG, arg_arr);    
-    }
-    else if (Check_If_Push_Pop (arg->token_arr[arg->token_i - 1].value.cmd_num))
-    {
-        if (Get_Brackets (arg) == ERROR)
-            MY_ASSERT (false, "Get_Brackets ()", FUNC_ERROR, ERROR);
-    }
-    else
-    {
-        if (Get_Number (arg) == ERROR)
-            MY_ASSERT (false, "Get_Number ()", FUNC_ERROR, ERROR);
-    }
-
-    return NO_ERRORS;
-}
 
 int Get_Brackets (struct Argument *arg)
 {
