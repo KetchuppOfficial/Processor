@@ -2,7 +2,7 @@
 #include "Reading_File.h"
 #include "../Log_File.h"
 
-extern const char *BINARY;
+extern const char *BINARY_FILE;
 
 char *Get_Code (int *max_ip)
 {
@@ -24,116 +24,57 @@ char *Get_Code (int *max_ip)
     return code;
 }
 
-#define DEFCMD_(num, name, n_args, code)                                            \
-case num:                                                                           \
-    if (Check_N_Args (num) == 0)                                                    \
-        ip++;                                                                       \
-    else if (Check_If_Push_Pop (num) == 1)                                          \
-    {                                                                               \
-        code;                                                                       \
-        ip++;                                                                       \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            ip += (3 + sizeof (int));                                               \
-        }                                                                           \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            ip += 3;                                                                \
-        }                                                                           \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            ip += (3 + sizeof (int));                                               \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            ip += 3;                                                                \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            ip += (3 + sizeof (double));                                            \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            ip += 3;                                                                \
-        }                                                                           \
-    }                                                                               \
-    else if (Check_If_Jump (num) == 1)                                              \
-    {                                                                               \
-        code;                                                                       \
-        ip++;                                                                       \
-        label_arr[label_i++] = code_arr[ip++];                                      \
-    }                                                                               \
-    else                                                                            \
-    {                                                                               \
-        code;                                                                       \
-        ip += (1 + sizeof (double));                                                \
-    }                                                                               \
-                                                                                    \
-    break;                                                              
+#define DEFCMD_(num, name, n_args, code)    \
+case num:                                   \
+    code;                                   \
+    break;
 
-int Process_Code (const char *code_arr, const int max_ip)
+int Process_Code (const char *code_arr, const int max_ip, struct Processor *pentium)
 {
-    MY_ASSERT (code_arr, "const char *code", NULL_PTR, NULL);
+    MY_ASSERT (code_arr, "const char *code_arr", NULL_PTR, ERROR);
 
-    char *label_arr = (char *)calloc (max_ip, sizeof (char));
-    MY_ASSERT (label_arr, "char *label_arr", NE_MEM, NULL);
-    int label_i = 0;
+    FILE *file_ptr = Open_File ("Debug.txt", "wb");
 
     for (int ip = 0; ip < max_ip; )
     {
+        fprintf (file_ptr, "ip = %d\n", ip);
+        Stack_Dump (&pentium->call_stack, file_ptr);
         switch (code_arr[ip])
         {
             #include "../Commands_List.h"
 
             default: 
-            MY_ASSERT (false, "code_arr[ip]", UNDEF_CMD, NULL);
+            MY_ASSERT (false, "code_arr[ip]", UNDEF_CMD, ERROR);
         }
     }
 
-    *n_labels = label_i;
+    Close_File (file_ptr, "Debug.txt");
 
-    return label_arr;
+    return NO_ERRORS;
 }
 #undef DEFCMD_
 
-//***************************************************************
-#define DEFCMD_(num, name, n_args, code)        \
-do                                              \
-{                                               \
-    if (num == cmd_num)                         \
-    {                                           \
-        if (strcmp (#name, "push") == 0 ||      \
-            strcmp (#name, "pop")  == 0)        \
-            return 1;                           \
-        else                                    \
-            return 0;                           \
-    }                                           \
-}                                               \
-while (0)
-
-int Check_If_Push_Pop (const int cmd_num)
+double Get_Double (double *num)
 {
-    #include "../Commands_List.h"
+    MY_ASSERT (num, "double *num", NULL_PTR, ERROR);
 
-    MY_ASSERT (false, "const int cmd_num", UNDEF_CMD, ERROR);
+    printf ("Write a number: ");
+    for (;;)
+    {
+        while (scanf ("%lf", num) != 1)
+        {
+            int symb = 0;
+            while ((symb = getchar ()) != '\n') {;}
+            printf ("Write an integer number: ");
+            printf ("You've written something wrong. Try again\n");
+        }
+        if (getchar () != '\n')
+        {
+            printf ("You've written something wrong. Try again\n");
+            continue;
+        }
+        break;
+    }
+
+    return NO_ERRORS;
 }
-#undef DEFCMD_
-//***************************************************************
-
-//***************************************************************
-#define DEFCMD_(num, name, n_args, code)    \
-do                                          \
-{                                           \
-    if (cmd_n == num)                       \
-        return n_args;                      \
-}                                           \
-while (0)
-
-int Check_N_Args (const int cmd_n)
-{           
-    #include "../Commands_List.h"
-
-    return 0;
-}
-#undef DEFCMD_
-//***************************************************************

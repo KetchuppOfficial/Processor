@@ -82,7 +82,7 @@ case num:                                                                       
 
 char *First_Passing (const char *code_arr, const int max_ip, int *n_labels)
 {
-    MY_ASSERT (code_arr, "const char *code", NULL_PTR, NULL);
+    MY_ASSERT (code_arr, "const char *code_arr", NULL_PTR, NULL);
 
     char *label_arr = (char *)calloc (max_ip, sizeof (char));
     MY_ASSERT (label_arr, "char *label_arr", NE_MEM, NULL);

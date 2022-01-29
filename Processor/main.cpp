@@ -1,8 +1,7 @@
 #include "Processor.h"
-#include "./Stack/Stack.h"
 #include "../Log_File.h"
 
-const char *BINARY = "../Binary.bin";
+const char *BINARY_FILE = "../Binary.bin";
 
 int main (void)
 {
@@ -16,7 +15,7 @@ int main (void)
     char *code = Get_Code (&max_ip);
     MY_ASSERT (code != NULL, "Get_Code ()", FUNC_ERROR, ERROR);
 
-    if (Process_Code (code, max_ip) == ERROR)
+    if (Process_Code (code, max_ip, &pentium) == ERROR)
         MY_ASSERT (false, "Process_Code ()", FUNC_ERROR, ERROR);
 
     free (code);

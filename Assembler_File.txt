@@ -1,23 +1,23 @@
-in       ;1
-pop ax   ;4
-push ax  ;4
+in       ;0
+pop ax   ;1
+push ax  ;5
 
-call one ;2
-out      ;1
-hlt      ;1
+call one ;9
+out      ;11
+hlt      ;12
 
 one:
-push ax  ;4
-push 1   ;12
-sub	 ;1
-pop ax   ;4
-push ax  ;4
-push 0   ;12
-ja two   ;2
-ret      ;1
+push ax  ;13
+push 1   ;17
+sub	     ;29
+pop ax   ;30
+push ax  ;34
+push 0   ;38
+ja two   ;50
+ret      ;52
 
 two:
-push ax  ;4
-mul	 ;1
-call one ;2
-ret	 ;1
+push ax  ;53
+mul	     ;57
+call one ;58
+ret	     ;60
