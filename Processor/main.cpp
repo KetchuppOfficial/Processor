@@ -20,7 +20,7 @@ int main (void)
 
     free (code);
     Stack_Dtor (&pentium.stack);
-    Stack_Ctor (&pentium.call_stack);
+    Stack_Dtor (&pentium.call_stack);
     
     return 0;
 }

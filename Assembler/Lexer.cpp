@@ -1,8 +1,6 @@
 #include "Assembler.h"
-#include "Reading_File.h"
+#include "../Reading_File.h"
 #include "../Log_File.h"
-
-//TODO!!! Check if there are no equal labels in labels_arr
 
 #define DEBUG 0
 

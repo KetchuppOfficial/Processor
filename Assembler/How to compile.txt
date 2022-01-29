@@ -1,0 +1,1 @@
+g++ main.cpp Lexer.cpp Parser.cpp ../Reading_File.cpp ../Log_File.cpp -o Assembler.out

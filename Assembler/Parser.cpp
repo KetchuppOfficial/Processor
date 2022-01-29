@@ -1,5 +1,5 @@
 #include "Assembler.h"
-#include "Reading_File.h"
+#include "../Reading_File.h"
 #include "../Log_File.h"
 
 extern const char *BINARY_FILE;
