@@ -7,6 +7,8 @@ extern const char *DISASM_FILE;
 
 char *Get_Code (int *max_ip)
 {
+    MY_ASSERT (max_ip, "int *max_ip", NULL_PTR, NULL);
+    
     FILE *file_ptr = Open_File (BINARY_FILE, "rb");
 
     int n_symbs = (int)Define_File_Size (file_ptr);
@@ -154,7 +156,7 @@ int Check_If_Jump (const int cmd_num)
 #define DEFCMD_(num, name, n_args, code)        \
 do                                              \
 {                                               \
-    if (num == pp_num)                          \
+    if (num == cmd_num)                         \
     {                                           \
         if (strcmp (#name, "push") == 0 ||      \
             strcmp (#name, "pop")  == 0)        \
@@ -165,7 +167,7 @@ do                                              \
 }                                               \
 while (0)
 
-int Check_If_Push_Pop (const int pp_num)
+int Check_If_Push_Pop (const int cmd_num)
 {
     #include "../Commands_List.h"
 
