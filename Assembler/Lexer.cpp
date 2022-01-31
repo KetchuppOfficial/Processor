@@ -331,7 +331,7 @@ int Get_Brackets (struct Argument *arg)
 
         return NO_ERRORS;
     }
-    else if (isdigit (arg->str[arg->symb_i]))
+    else if (isdigit (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '-')
     {        
         if (Get_Number (arg) == ERROR)
             MY_ASSERT (false, "Get_Number ()", FUNC_ERROR, ERROR);
@@ -424,6 +424,11 @@ int Get_Number (struct Argument *arg)
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
 
     double num = 0.0;
+    if (arg->str[arg->symb_i] == '-')
+    {
+        num = -1;
+        arg->symb_i++;
+    }
 
     while ('0' <= arg->str[arg->symb_i] && arg->str[arg->symb_i] <= '9')
     {
