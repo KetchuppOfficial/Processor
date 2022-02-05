@@ -1,8 +1,8 @@
-#include "Log_File.h"
+#include "../Log_File.h"
 
 FILE *LOG_FILE = NULL;
 
-static const char *PREAMBLE = "This is log file of the project.\n"
+static const char *PREAMBLE = "This is log file of the program \"Assembler\".\n"
                               "This file will help you to find and fix all the errors.\n\n";
 
 static const char *ERROR_DESCRIPTIONS[] =
@@ -86,7 +86,7 @@ static const char *ERROR_DESCRIPTIONS[] =
 
 int Open_Log_File (void)
 {
-    LOG_FILE = fopen ("log_file.log", "wb");
+    LOG_FILE = fopen ("./Assembler/log_file.log", "wb");
 
     if (!LOG_FILE)
     {
