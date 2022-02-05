@@ -1,1 +1,0 @@
-g++ main.cpp Processor.cpp ../Reading_File.cpp ./Stack/Stack.cpp ../Log_File.cpp -Wall -Wextra -o Processor.out

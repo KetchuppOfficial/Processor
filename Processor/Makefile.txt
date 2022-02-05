@@ -1,0 +1,26 @@
+CC=g++
+
+CFLAGS=-c -Wall -Wextra
+
+all: Processor
+
+Processor: main.o Processor.o Stack.o Reading_File.o Log_File.o
+	$(CC) main.o Processor.o Stack.o Reading_File.o Log_File.o -o Processor
+	rm -rf *.o
+	./Processor
+	rm Processor
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) main.cpp
+
+Processor.o: Processor.cpp
+	$(CC) $(CFLAGS) Processor.cpp
+
+Stack.o: ./Stack/Stack.cpp
+	$(CC) $(CFLAGS) ./Stack/Stack.cpp
+
+Reading_File.o: ../Reading_File.cpp
+	$(CC) $(CFLAGS) ../Reading_File.cpp
+
+Log_File.o: ../Log_File.cpp
+	$(CC) $(CFLAGS) ../Log_File.cpp
