@@ -1,4 +1,4 @@
-#include "../Log_File.h"
+#include "Log_File.h"
 
 FILE *LOG_FILE = NULL;
 

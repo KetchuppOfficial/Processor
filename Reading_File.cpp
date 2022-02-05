@@ -1,5 +1,5 @@
 #include "Reading_File.h"
-#include "../Log_File.h"
+#include "Log_File.h"
 
 FILE *Open_File (const char *const file_name, const char *const mode)
 {
