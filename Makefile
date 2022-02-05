@@ -37,7 +37,7 @@ clean_asm:
 #RELATED TO PROCESSOR
 #*************************************************
 PROC_OBJECTS = proc_main.o Processor.o Stack.o Reading_File.o Proc_Log_File.o
-PROC_FILES = ./Processor/proc_main.o ./Processor/Processor.o ./Processor/Stack.o Reading_File.o ./Processor/Proc_Log_File.o
+PROC_FILES = ./Processor/proc_main.o ./Processor/Processor.o ./Processor/Stack/Stack.o Reading_File.o ./Processor/Proc_Log_File.o
 
 Processor: $(PROC_OBJECTS)
 	$(CC) $(PROC_FILES) -o ./Processor/Processor.out
@@ -49,7 +49,7 @@ Processor.o: ./Processor/Processor.cpp
 	$(CC) $(CFLAGS) ./Processor/Processor.cpp -o ./Processor/Processor.o
 
 Stack.o: ./Processor/Stack/Stack.cpp
-	$(CC) $(CFLAGS) ./Processor/Stack/Stack.cpp -o ./Processor/Stack.o
+	$(CC) $(CFLAGS) ./Processor/Stack/Stack.cpp -o ./Processor/Stack/Stack.o
 
 Proc_Log_File.o: ./Processor/Log_File.cpp
 	$(CC) $(CFLAGS) ./Processor/Log_File.cpp -o ./Processor/Proc_Log_File.o
@@ -59,7 +59,7 @@ run_proc:
 
 clean_proc:
 	rm $(PROC_FILES)
-	rm ./ProcessorProcessor.out
+	rm ./Processor/Processor.out
 #*************************************************
 
 #RELATED TO DISASSEMBLER

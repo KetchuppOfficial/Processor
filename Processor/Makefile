@@ -5,7 +5,7 @@ CFLAGS=-c -Wall -Wextra
 all: Processor
 
 Processor: main.o Processor.o Stack.o Reading_File.o Log_File.o
-	$(CC) main.o Processor.o Stack.o Reading_File.o Log_File.o -o Processor
+	$(CC) main.o Processor.o Stack.o Reading_File.o Log_File.o -o Processor.out
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -23,8 +23,8 @@ Log_File.o: ../Log_File.cpp
 	$(CC) $(CFLAGS) ../Log_File.cpp
 
 run:
-	./Processor
+	./Processor.out
 
 clean:
 	rm -rf *.o
-	rm Processor
+	rm Processor.out
