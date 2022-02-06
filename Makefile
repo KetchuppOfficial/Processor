@@ -43,7 +43,7 @@ Processor: $(PROC_OBJECTS)
 	$(CC) $(PROC_FILES) -o ./Processor/Processor.out
 
 proc_main.o: ./Processor/main.cpp
-	$(CC) $(CFLAFS) ./Processor/main.cpp -o ./Processor/proc_main.o
+	$(CC) $(CFLAGS) ./Processor/main.cpp -o ./Processor/proc_main.o
 
 Processor.o: ./Processor/Processor.cpp
 	$(CC) $(CFLAGS) ./Processor/Processor.cpp -o ./Processor/Processor.o
@@ -71,7 +71,7 @@ Disassembler: $(DISASM_OBJECTS)
 	$(CC) $(DISASM_FILES) -o ./Disassembler/Disassembler.out
 
 disasm_main.o: ./Disassembler/main.cpp
-	$(CC) $(CFLAFS) ./Disassembler/main.cpp -o ./Disassembler/disasm_main.o
+	$(CC) $(CFLAGS) ./Disassembler/main.cpp -o ./Disassembler/disasm_main.o
 
 Disassembler.o: ./Disassembler/Disassembler.cpp
 	$(CC) $(CFLAGS) ./Disassembler/Disassembler.cpp -o ./Disassembler/Disassembler.o
