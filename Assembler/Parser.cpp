@@ -152,7 +152,7 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
                 label_i++;
                 break;
             case JMP_ARG:
-                ip++;
+                ip += sizeof (int);
                 break;
 
             default: MY_ASSERT (false, "token_arr[i].type", UNEXP_VAL, NULL);
@@ -196,8 +196,8 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
                     printf ("UNKNOWN JUMP: %s\n", token_arr[i].value.jmp_arg);
                     MY_ASSERT (false, "None", UNKNOWN_JMP, ERROR);
                 }
-
-                code[ip++] = label_arr[label_i].next_cmd_ip;
+                *(int *)(code + ip) = label_arr[label_i].next_cmd_ip;
+                ip += sizeof (int);
                 break;
             case CMD:
                 ip++;

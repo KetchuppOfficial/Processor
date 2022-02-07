@@ -1,8 +1,8 @@
 #include "Disassembler.h"
 #include "../Log_File.h"
 
-const char *BINARY_FILE = "../Binary.bin";
-const char *DISASM_FILE = "Disassembled.txt";
+const char *BINARY_FILE = "Binary.bin";
+const char *DISASM_FILE = "./Disassembler/Disassembled.txt";
 
 int main (void)
 {

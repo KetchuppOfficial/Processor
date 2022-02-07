@@ -80,10 +80,20 @@ struct Token *Lexer (const char *str, const long n_symbs, int *n_tokens)
 
     while (arg.symb_i < arg.n_symbs)
     {
-        if (Process_Line (&arg) == ERROR)
+        while (arg.symb_i < arg.n_symbs && (isspace (arg.str[arg.symb_i]) || arg.str[arg.symb_i] == ';'))
+        {
+            if (isspace (arg.str[arg.symb_i]))
+            {
+                if (arg.str[arg.symb_i] == '\n')
+                    arg.line++;
+                arg.symb_i++;
+            }
+            else if (arg.str[arg.symb_i] == ';')
+                if (Skip_Comments (&arg) == ERROR)
+                    MY_ASSERT (false, "Skip_Comments ()", FUNC_ERROR, NULL);
+        }
+        if (arg.symb_i < arg.n_symbs && Process_Line (&arg) == ERROR)
             MY_ASSERT (false, "Process_Line ()", FUNC_ERROR, NULL);
-
-        arg.line++;
     }
         
     *n_tokens = arg.token_i;
@@ -97,9 +107,6 @@ int Process_Line (struct Argument *arg)
     
     if (Skip_Spaces (arg, MOL) == ERROR)
         MY_ASSERT (false, "Skip_Spaces ()", FUNC_ERROR, ERROR);
-
-    if (Skip_Comments (arg) == ERROR)
-        MY_ASSERT (false, "Skip_Comments ()", FUNC_ERROR, ERROR);
 
     int n_args = Process_Name (arg);
     MY_ASSERT (n_args != ERROR, "Process_Name ()", FUNC_ERROR, ERROR);
@@ -124,9 +131,6 @@ int Process_Line (struct Argument *arg)
         Show_Error (arg, "Unexpected symbol");
         MY_ASSERT (false, "Buffer with assembler code", UNEXP_SYMB, ERROR);
     }
-
-    while (arg->symb_i < arg->n_symbs && (arg->str[arg->symb_i] == '\n' || arg->str[arg->symb_i] == '\r'))
-        arg->symb_i++;
     
     return NO_ERRORS;
 }
@@ -148,7 +152,7 @@ int Process_Name (struct Argument *arg)
     int cmd_num = 0, n_args = 0;
 
     int i = 0;
-    for (i = 0; isalpha (arg->str[arg->symb_i]) && arg->str[arg->symb_i] != ':'; i++, arg->symb_i++)
+    for (i = 0; isalpha (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '_'; i++, arg->symb_i++)
         name_arr[i] = arg->str[arg->symb_i];
     
     if (arg->str[arg->symb_i] == ':')
@@ -230,12 +234,12 @@ int Process_Arg (struct Argument *arg)
 {
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
     
-    if (isalpha (arg->str[arg->symb_i]) && Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
+    if ((isalpha (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '_') && Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
     {
         char arg_arr[MAX_NAME_SIZE] = "";
 
         int i = 0;
-        for (i = 0; isalpha (arg->str[arg->symb_i]); i++, arg->symb_i++)
+        for (i = 0; isalpha (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '_'; i++, arg->symb_i++)
             arg_arr[i] = arg->str[arg->symb_i];
 
         Add_Token (arg, JMP_ARG, arg_arr);    
@@ -424,9 +428,10 @@ int Get_Number (struct Argument *arg)
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
 
     double num = 0.0;
+    bool is_negative = false;
     if (arg->str[arg->symb_i] == '-')
     {
-        num = -1;
+        is_negative = true;
         arg->symb_i++;
     }
 
@@ -456,6 +461,9 @@ int Get_Number (struct Argument *arg)
             MY_ASSERT (false, "const char *old_str", WRONG_DECIMAL, ERROR);
         }
     }
+
+    if (is_negative)
+        num = -num;
 
     Add_Token (arg, NUM, num);
 
@@ -571,7 +579,6 @@ int Skip_Comments (struct Argument *arg)
     {
         while (arg->symb_i < arg->n_symbs && arg->str[arg->symb_i] != '\n')
             arg->symb_i++;
-        arg->symb_i++;
     }
 
     return NO_ERRORS;

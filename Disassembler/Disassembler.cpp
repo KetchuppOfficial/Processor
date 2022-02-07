@@ -73,10 +73,11 @@ case num:                                                                       
     else if (Check_If_Jump (num) == 1)                                              \
     {                                                                               \
         ip++;                                                                       \
-        label_arr[label_i++] = code_arr[ip++];                                      \
+        label_arr[label_i++] = *(int *)(code_arr + ip);                             \
+        ip += sizeof (int);                                                         \
     }                                                                               \
     else                                                                            \
-        ip += (1 + sizeof (double));                                                \
+        ip += 1 + sizeof (double);                                                  \
                                                                                     \
     break;                                                              
 
@@ -176,70 +177,70 @@ int Check_If_Push_Pop (const int cmd_num)
 #undef DEFCMD_
 //***************************************************************
 
-#define DEFCMD_(num, name, n_args, code)                                            \
-case num:                                                                           \
-    if (Check_N_Args (num) == 0)                                                    \
-    {                                                                               \
-        fprintf (file_ptr, "%s\n", Show_CMD_Name (num));                            \
-        ip++;                                                                       \
-    }                                                                               \
-    else if (Check_If_Push_Pop (num) == 1)                                          \
-    {                                                                               \
-        ip++;                                                                       \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            fprintf (file_ptr, "%s [%cx + %d]\n",                                   \
-                               Show_CMD_Name (num),                                 \
-                               code_arr[ip + 1] + 'a',                              \
-                               *(int *)(code_arr + ip + 3));                        \
-            ip += 3 + sizeof (int);                                                 \
-        }                                                                           \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            fprintf (file_ptr, "%s [%cx]\n",                                        \
-                               Show_CMD_Name (num),                                 \
-                               code_arr[ip + 1] + 'a');                             \
-            ip += 3;                                                                \
-        }                                                                           \
-        if (code_arr[ip] == 1 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            fprintf (file_ptr, "%s [%d]\n",                                         \
-                               Show_CMD_Name (num),                                 \
-                               *(int *)(code_arr + ip + 3));                        \
-            ip += 3 + sizeof (int);                                                 \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            fprintf (file_ptr, "%s %cx\n",                                          \
-                               Show_CMD_Name (num),                                 \
-                               code_arr[ip + 1] + 'a' - 1);                         \
-            ip += 3;                                                                \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)    \
-        {                                                                           \
-            fprintf (file_ptr, "push %d\n",                                         \
-                               *(int *)(code_arr + ip + 3));                        \
-            ip += 3 + sizeof (double);                                              \
-        }                                                                           \
-        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 0)    \
-        {                                                                           \
-            fprintf (file_ptr, "pop\n");                                            \
-            ip += 3;                                                                \
-        }                                                                           \
-    }                                                                               \
-    else if (Check_If_Jump (num) == 1)                                              \
-    {                                                                               \
-        fprintf (file_ptr, "%s %d\n", Show_CMD_Name (num), code_arr[ip + 1]);       \
-        ip += 2;                                                                    \
-    }                                                                               \
-    else                                                                            \
-    {                                                                               \
-        fprintf (file_ptr, "%s %lf\n",                                              \
-                           Show_CMD_Name (num),                                     \
-                           *(double *)(code_arr + ip + 1));                         \
-        ip += 1 + sizeof (double);                                                  \
-    }                                                                               \
-                                                                                    \
+#define DEFCMD_(num, name, n_args, code)                                                    \
+case num:                                                                                   \
+    if (Check_N_Args (num) == 0)                                                            \
+    {                                                                                       \
+        fprintf (file_ptr, "%s\n", Show_CMD_Name (num));                                    \
+        ip++;                                                                               \
+    }                                                                                       \
+    else if (Check_If_Push_Pop (num) == 1)                                                  \
+    {                                                                                       \
+        ip++;                                                                               \
+        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 1)            \
+        {                                                                                   \
+            fprintf (file_ptr, "%s [%cx + %d]\n",                                           \
+                               Show_CMD_Name (num),                                         \
+                               code_arr[ip + 1] + 'a',                                      \
+                               *(int *)(code_arr + ip + 3));                                \
+            ip += 3 + sizeof (int);                                                         \
+        }                                                                                   \
+        if (code_arr[ip] == 1 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)            \
+        {                                                                                   \
+            fprintf (file_ptr, "%s [%cx]\n",                                                \
+                               Show_CMD_Name (num),                                         \
+                               code_arr[ip + 1] + 'a');                                     \
+            ip += 3;                                                                        \
+        }                                                                                   \
+        if (code_arr[ip] == 1 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)            \
+        {                                                                                   \
+            fprintf (file_ptr, "%s [%d]\n",                                                 \
+                               Show_CMD_Name (num),                                         \
+                               *(int *)(code_arr + ip + 3));                                \
+            ip += 3 + sizeof (int);                                                         \
+        }                                                                                   \
+        if (code_arr[ip] == 0 && code_arr[ip + 1] != 0 && code_arr[ip + 2] == 0)            \
+        {                                                                                   \
+            fprintf (file_ptr, "%s %cx\n",                                                  \
+                               Show_CMD_Name (num),                                         \
+                               code_arr[ip + 1] + 'a' - 1);                                 \
+            ip += 3;                                                                        \
+        }                                                                                   \
+        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 1)            \
+        {                                                                                   \
+            fprintf (file_ptr, "push %d\n",                                                 \
+                               *(int *)(code_arr + ip + 3));                                \
+            ip += 3 + sizeof (double);                                                      \
+        }                                                                                   \
+        if (code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 0)            \
+        {                                                                                   \
+            fprintf (file_ptr, "pop\n");                                                    \
+            ip += 3;                                                                        \
+        }                                                                                   \
+    }                                                                                       \
+    else if (Check_If_Jump (num) == 1)                                                      \
+    {                                                                                       \
+        fprintf (file_ptr, "%s %d\n", Show_CMD_Name (num), *(int *)(code_arr + ip + 1));    \
+        ip += 1 + sizeof (int);                                                             \
+    }                                                                                       \
+    else                                                                                    \
+    {                                                                                       \
+        fprintf (file_ptr, "%s %lf\n",                                                      \
+                           Show_CMD_Name (num),                                             \
+                           *(double *)(code_arr + ip + 1));                                 \
+        ip += 1 + sizeof (double);                                                          \
+    }                                                                                       \
+                                                                                            \
     break;                                                              
 
 int Second_Passing (const char *code_arr, const int max_ip, FILE *file_ptr, const char *label_arr, const int n_labels)

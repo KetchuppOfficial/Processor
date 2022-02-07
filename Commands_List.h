@@ -12,7 +12,7 @@ while (0);
 DEFCMD_(2,  jne,  1, 
 do
 {
-    JUMP ( >= );
+    JUMP (">=");
 }
 while (0);
 );
@@ -20,7 +20,7 @@ while (0);
 DEFCMD_(3,  ja,  1, 
 do
 {
-    JUMP ( > );
+    JUMP (">");
 }
 while (0);
 );
@@ -28,7 +28,7 @@ while (0);
 DEFCMD_(4,  jbe,  1, 
 do
 {
-    JUMP ( <= );
+    JUMP ("<=");
 }
 while (0);
 );
@@ -36,7 +36,7 @@ while (0);
 DEFCMD_(5,  jb,  1, 
 do
 {
-    JUMP ( < );
+    JUMP ("<");
 }
 while (0);
 );
@@ -44,7 +44,7 @@ while (0);
 DEFCMD_(6,  je,  1, 
 do
 {
-    JUMP ( == );
+    JUMP ("==");
 }
 while (0);
 );
@@ -52,7 +52,7 @@ while (0);
 DEFCMD_(7,  jne,  1, 
 do
 {
-    JUMP ( != );
+    JUMP ("!=");
 }
 while (0);
 );
@@ -156,6 +156,39 @@ DEFCMD_(16, dvd,  0,
 do
 {
     Arithmetic ( '/' );
+}
+while (0);
+);
+
+DEFCMD_(17, sqrt, 0,
+do
+{
+    double a = 0.0;
+    POP (&a);
+    a = sqrt (a);
+    PUSH (a);
+    ip++;
+}
+while (0);
+);
+
+DEFCMD_(18, print_roots, 1,
+do
+{
+    double n_roots = *(double *)(code_arr + ip + 1);
+    
+    if (n_roots == -1)
+        printf ("The equation has infinite number of roots\n");
+    else if (n_roots == 0)
+        printf ("The equation has no roots\n");
+    else if (n_roots == 1)
+    {
+        double a = 0.0;
+        POP (&a);
+        printf ("The root: %f\n", a);
+    }
+
+    ip += 1 + sizeof (double);
 }
 while (0);
 );

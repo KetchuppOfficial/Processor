@@ -1,4 +1,4 @@
-; This program solves equation of type ax^2 + bx + c = 0
+;This program solves equations of type ax^2 + bx + c = 0
 
 in
 pop ax	; coefficient "a" in register ax
@@ -35,11 +35,6 @@ push 0
 je equal_roots
 
 push dx
-push 0
-ja two_roots
-
-two_roots:
-push dx
 sqrt
 pop dx
 
@@ -51,7 +46,7 @@ sub
 push 2
 push ax
 dvd
-print first_root
+print_roots 1
 
 push -1
 push bx
@@ -61,7 +56,7 @@ add
 push 2
 push ax
 dvd
-print second_root
+print_roots 1
 hlt
 
 equal_roots:
@@ -72,31 +67,31 @@ push 2
 push ax
 mul
 dvd
-print_one_root
+print_roots 1
 hlt
 
 linear:
 push bx
 push 0
-ja only_c
+je only_c
 
 push -1
 push cx
 mul
-push b
+push bx
 dvd
-print_one_root
+print_roots 1
 hlt
 
 only_c:
 push cx
 push 0
-ja inf_roots
+je inf_roots
 
 no_roots:
-print_no_roots
+print_roots 0
 hlt
 
 inf_roots:
-print_inf_roots
+print_roots -1
 hlt

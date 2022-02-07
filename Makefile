@@ -9,7 +9,7 @@ all: Assembler Processor Disassembler
 ASM_OBJECTS = asm_main.o Lexer.o Parser.o Reading_File.o Asm_Log_File.o
 ASM_FILES = ./Assembler/asm_main.o ./Assembler/Lexer.o ./Assembler/Parser.o Reading_File.o ./Assembler/Asm_Log_File.o
 
-ASM_FILE = Factorial.txt
+ASM_FILE = Quadratic_Equation.txt
 
 Assembler: $(ASM_OBJECTS)
 	$(CC) $(ASM_FILES) -o ./Assembler/Assembler.out

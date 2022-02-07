@@ -1,7 +1,7 @@
 #include "Assembler.h"
 #include "../Log_File.h"
 
-const char *BINARY_FILE = "../Binary.bin";
+const char *BINARY_FILE = "Binary.bin";
 
 int main (int argc, char *argv[])
 {

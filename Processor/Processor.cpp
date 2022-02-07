@@ -13,9 +13,9 @@ char *Get_Code (int *max_ip)
     int n_symbs = (int)Define_File_Size (file_ptr);
 
     char *code = (char *)calloc (n_symbs, sizeof (char));
-    MY_ASSERT (code, "char *code", NE_MEM, NULL);
+    MY_ASSERT (code, "unsigned char *code", NE_MEM, NULL);
 
-    fread (code, sizeof (char), n_symbs, file_ptr);
+    fread (code, sizeof (unsigned char), n_symbs, file_ptr);
 
     Close_File (file_ptr, BINARY_FILE);
 
@@ -71,4 +71,14 @@ double Get_Double (double *num)
     }
 
     return NO_ERRORS;
+}
+
+int Compare_Double (const double first, const double second)
+{
+    double absolute_value = fabs (first - second);
+
+    if (absolute_value > EPSILON)
+        return (first > second) ? GREATER : LESS;
+    else
+        return EQUAL;
 }

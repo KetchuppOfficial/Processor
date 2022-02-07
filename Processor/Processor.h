@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "./Stack/Stack.h"
 
 struct Processor
@@ -13,9 +14,19 @@ struct Processor
     double REG[4];
 };
 
+enum Comparison
+{
+    LESS = -1,
+    EQUAL,
+    GREATER
+};
+
+const double EPSILON = 1E-6;
+
 char *Get_Code (int *max_ip);
 int Process_Code (const char *code_arr, const int max_ip, struct Processor *pentium);
 double Get_Double (double *num);
+int Compare_Double (const double first, const double second);
 
 #define PUSH(value)   Stack_Push (&(pentium->stack), value);
 #define PUSH_F(value) Stack_Push (&(pentium->call_stack), value);
@@ -130,7 +141,7 @@ do                                                              \
         case '*':   PUSH (a * b); break;                        \
         case '/':                                               \
         {                                                       \
-            if (a)                                              \
+            if (Compare_Double (a, 0) != EQUAL)                 \
             {                                                   \
                 PUSH (a / b); break;                            \
             }                                                   \
@@ -146,19 +157,28 @@ do                                                              \
 }                                                               \
 while (0)
 
-#define JUMP(condition)             \
-do                                  \
-{                                   \
-    double first = 0, second = 0;   \
-                                    \
-    POP (&second);                  \
-    POP (&first);                   \
-                                    \
-    if (first condition second)     \
-        ip = code_arr[ip + 1];      \
-    else                            \
-        ip += 2;                    \
-}                                   \
+#define JUMP(condition)                                                                 \
+do                                                                                      \
+{                                                                                       \
+    double first = 0, second = 0;                                                       \
+                                                                                        \
+    POP (&second);                                                                      \
+    POP (&first);                                                                       \
+                                                                                        \
+    int comp_res = Compare_Double (first, second);                                      \
+                                                                                        \
+    if ((!strcmp (condition, ">=") && (comp_res == EQUAL  || comp_res == GREATER)) ||   \
+        (!strcmp (condition, ">")  &&  comp_res == GREATER                       ) ||   \
+        (!strcmp (condition, "<=") && (comp_res == EQUAL  || comp_res == LESS)   ) ||   \
+        (!strcmp (condition, "<")  &&  comp_res == LESS                          ) ||   \
+        (!strcmp (condition, "==") &&  comp_res == EQUAL                         ) ||   \
+        (!strcmp (condition, "!=") &&  comp_res != EQUAL                         )   )  \
+    {                                                                                   \
+        ip = *(int *)(code_arr + ip + 1);                                               \
+    }                                                                                   \
+    else                                                                                \
+        ip += 1 + sizeof (int);                                                         \
+}                                                                                       \
 while (0)
 
 #endif
