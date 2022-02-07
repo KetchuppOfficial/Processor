@@ -1,0 +1,102 @@
+; This program solves equation of type ax^2 + bx + c = 0
+
+in
+pop ax	; coefficient "a" in register ax
+
+in
+pop bx	; coefficient "b" in register bx
+
+in
+pop cx	; coefficient "c" in register cx
+
+push ax
+push 0
+je linear
+
+push bx
+push bx
+mul
+
+push 4
+push ax
+push cx
+mul
+mul
+
+sub
+pop dx	; discriminant in register dx
+
+push dx
+push 0
+jb no_roots
+
+push dx
+push 0
+je equal_roots
+
+push dx
+push 0
+ja two_roots
+
+two_roots:
+push dx
+sqrt
+pop dx
+
+push -1
+push bx
+mul
+push dx
+sub
+push 2
+push ax
+dvd
+print first_root
+
+push -1
+push bx
+mul
+push dx
+add
+push 2
+push ax
+dvd
+print second_root
+hlt
+
+equal_roots:
+push -1
+push bx
+mul
+push 2
+push ax
+mul
+dvd
+print_one_root
+hlt
+
+linear:
+push bx
+push 0
+ja only_c
+
+push -1
+push cx
+mul
+push b
+dvd
+print_one_root
+hlt
+
+only_c:
+push cx
+push 0
+ja inf_roots
+
+no_roots:
+print_no_roots
+hlt
+
+inf_roots:
+print_inf_roots
+hlt

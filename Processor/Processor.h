@@ -120,19 +120,19 @@ while (0)
 do                                                              \
 {                                                               \
     double a = 0.0, b = 0.0;                                    \
-    POP(&a);                                                    \
     POP(&b);                                                    \
+    POP(&a);                                                    \
                                                                 \
     switch (operator)                                           \
     {                                                           \
-        case '+':   PUSH (b + a); break;                        \
-        case '-':   PUSH (b - a); break;                        \
-        case '*':   PUSH (b * a); break;                        \
+        case '+':   PUSH (a + b); break;                        \
+        case '-':   PUSH (a - b); break;                        \
+        case '*':   PUSH (a * b); break;                        \
         case '/':                                               \
         {                                                       \
             if (a)                                              \
             {                                                   \
-                PUSH (b / a); break;                            \
+                PUSH (a / b); break;                            \
             }                                                   \
             else                                                \
             {                                                   \
@@ -151,10 +151,10 @@ do                                  \
 {                                   \
     double first = 0, second = 0;   \
                                     \
-    POP (&first);                   \
     POP (&second);                  \
+    POP (&first);                   \
                                     \
-    if (second condition first)     \
+    if (first condition second)     \
         ip = code_arr[ip + 1];      \
     else                            \
         ip += 2;                    \

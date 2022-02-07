@@ -2,7 +2,7 @@
 
 FILE *LOG_FILE = NULL;
 
-static const char *PREAMBLE = "This is log file of the program \"Disassembler\".\n"
+static const char *PREAMBLE = "This is log file of the program \"Processor\".\n"
                               "This file will help you to find and fix all the errors.\n\n";
 
 static const char *ERROR_DESCRIPTIONS[] =
