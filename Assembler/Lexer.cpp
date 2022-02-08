@@ -234,12 +234,12 @@ int Process_Arg (struct Argument *arg)
 {
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
     
-    if ((isalpha (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '_') && Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
+    if (Check_If_Jump (arg->token_arr[arg->token_i - 1].value.cmd_num))
     {
         char arg_arr[MAX_NAME_SIZE] = "";
 
         int i = 0;
-        for (i = 0; isalpha (arg->str[arg->symb_i]) || arg->str[arg->symb_i] == '_'; i++, arg->symb_i++)
+        for (i = 0; !isspace (arg->str[arg->symb_i]); i++, arg->symb_i++)
             arg_arr[i] = arg->str[arg->symb_i];
 
         Add_Token (arg, JMP_ARG, arg_arr);    
