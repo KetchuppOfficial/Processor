@@ -45,6 +45,7 @@ push dx
 sub
 push 2
 push ax
+mul
 dvd
 print_roots 1
 
@@ -55,6 +56,7 @@ push dx
 add
 push 2
 push ax
+mul
 dvd
 print_roots 1
 hlt
