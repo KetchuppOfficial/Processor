@@ -9,7 +9,7 @@ do
 while (0);
 );
 
-DEFCMD_(2,  jne,  1, 
+DEFCMD_(2,  jae,  1, 
 do
 {
     JUMP (">=");
