@@ -175,7 +175,7 @@ while (0);
 DEFCMD_(18, print_roots, 1,
 do
 {
-    double n_roots = *(double *)(code_arr + ip + 1);
+    int n_roots = (int)*(double *)(code_arr + ip + 1);
     
     if (n_roots == -1)
         printf ("The equation has infinite number of roots\n");
@@ -188,6 +188,15 @@ do
         printf ("The root: %f\n", a);
     }
 
+    ip += 1 + sizeof (double);
+}
+while (0);
+);
+
+DEFCMD_(19, write_circle, 1, 
+do
+{
+    Write_Circle (pentium, (int)*(double *)(code_arr + ip + 1));
     ip += 1 + sizeof (double);
 }
 while (0);
