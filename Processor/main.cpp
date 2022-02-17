@@ -18,7 +18,6 @@ int main (void)
     if (Process_Code (code, max_ip, &pentium) == ERROR)
         MY_ASSERT (false, "Process_Code ()", FUNC_ERROR, ERROR);
 
-    free (code);
     Stack_Dtor (&pentium.stack);
     Stack_Dtor (&pentium.call_stack);
     

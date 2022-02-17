@@ -12,6 +12,7 @@ struct Processor
     struct Stack call_stack;
     double RAM[4096];
     double REG[4];
+    char   GRAM[64000];
 };
 
 enum Comparison
@@ -21,12 +22,39 @@ enum Comparison
     GREATER
 };
 
-const double EPSILON = 1E-6;
+struct Point 
+{
+    int x;
+    int y;
+};
 
-char *Get_Code (int *max_ip);
-int Process_Code (const char *code_arr, const int max_ip, struct Processor *pentium);
-double Get_Double (double *num);
-int Compare_Double (const double first, const double second);
+struct Circle
+{
+    struct Point this_pt;
+    int R;
+    int Delta;
+    int delta_1;
+    int delta_2;
+};
+
+enum Pt_Types
+{
+    horizontal,
+    diagonal,
+    vertical
+};
+
+const double EPSILON = 1E-6;
+const int HOR_SIZE = 320;
+const int VERT_SIZE = 200;
+
+char   *Get_Code      (int *max_ip);
+int    Process_Code   (const char *code_arr, const int max_ip, struct Processor *pentium);
+double Get_Double     (double *num);
+int    Compare_Double (const double first, const double second);
+int    Write_Circle   (struct Processor *pentium, const int radius);
+int    Change_Deltas  (struct Circle *circle, Pt_Types mode);
+int    Put_In_RAM     (struct Processor *pentium, const struct Circle *circle);
 
 #define PUSH(value)   Stack_Push (&(pentium->stack), value);
 #define PUSH_F(value) Stack_Push (&(pentium->call_stack), value);
