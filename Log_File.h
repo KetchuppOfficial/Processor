@@ -76,6 +76,8 @@ enum ERROR_TYPES
     SCND_BRACE,
     TWO_BRACK,
 
+    RADIUS,
+
     CTOR_ERR,
     PUSH_ERR,
     POP_ERR,

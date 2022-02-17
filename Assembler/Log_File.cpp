@@ -47,6 +47,8 @@ static const char *ERROR_DESCRIPTIONS[] =
     "Second brace expected",
     "Two brackets in a row",
 
+     "The radius of a circle has to be in range from 1 to 100",
+
     "Constructing error",
     "Pushing error",
     "Popping error",
