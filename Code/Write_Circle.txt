@@ -1,0 +1,3 @@
+write_circle 100
+
+hlt
