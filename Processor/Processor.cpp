@@ -1,6 +1,5 @@
 #include "Processor.h"
-#include "../Reading_File.h"
-#include "../Log_File.h"
+#include "../My_Lib/My_Lib.h"
 
 extern const char *BINARY_FILE;
 

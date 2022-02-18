@@ -2,17 +2,19 @@ CC = g++
 
 CFLAGS = -c -Wall -Werror
 
+LOG_LIB = ./My_Lib/My_Lib.a
+
 all: Assembler Processor Disassembler
 
 #RELATED TO ASSEMBLER
 #*************************************************
-ASM_OBJECTS = asm_main.o Lexer.o Parser.o Reading_File.o Asm_Log_File.o
-ASM_FILES = ./Assembler/asm_main.o ./Assembler/Lexer.o ./Assembler/Parser.o Reading_File.o ./Assembler/Asm_Log_File.o
+ASM_OBJECTS = asm_main.o Lexer.o Parser.o
+ASM_FILES = ./Assembler/asm_main.o ./Assembler/Lexer.o ./Assembler/Parser.o
 
 ASM_FILE = ./Code/Write_Circle.txt
 
 Assembler: $(ASM_OBJECTS)
-	$(CC) $(ASM_FILES) -o ./Assembler/Assembler.out
+	$(CC) -o ./Assembler/Assembler.out $(ASM_FILES) $(LOG_LIB)
 
 asm_main.o: ./Assembler/main.cpp
 	$(CC) $(CFLAGS) ./Assembler/main.cpp -o ./Assembler/asm_main.o
@@ -22,9 +24,6 @@ Lexer.o: ./Assembler/Lexer.cpp
 
 Parser.o: ./Assembler/Parser.cpp
 	$(CC) $(CFLAGS) ./Assembler/Parser.cpp -o ./Assembler/Parser.o
-
-Asm_Log_File.o: ./Assembler/Log_File.cpp
-	$(CC) $(CFLAGS) ./Assembler/Log_File.cpp -o ./Assembler/Asm_Log_File.o
 
 run_asm:
 	./Assembler/Assembler.out $(ASM_FILE)
@@ -36,11 +35,11 @@ clean_asm:
 
 #RELATED TO PROCESSOR
 #*************************************************
-PROC_OBJECTS = proc_main.o Processor.o Stack.o Reading_File.o Proc_Log_File.o
-PROC_FILES = ./Processor/proc_main.o ./Processor/Processor.o ./Processor/Stack/Stack.o Reading_File.o ./Processor/Proc_Log_File.o
+PROC_OBJECTS = proc_main.o Processor.o Stack.o
+PROC_FILES = ./Processor/proc_main.o ./Processor/Processor.o ./Processor/Stack/Stack.o
 
 Processor: $(PROC_OBJECTS)
-	$(CC) $(PROC_FILES) -o ./Processor/Processor.out
+	$(CC) -o ./Processor/Processor.out $(PROC_FILES) $(LOG_LIB)
 
 proc_main.o: ./Processor/main.cpp
 	$(CC) $(CFLAGS) ./Processor/main.cpp -o ./Processor/proc_main.o
@@ -50,9 +49,6 @@ Processor.o: ./Processor/Processor.cpp
 
 Stack.o: ./Processor/Stack/Stack.cpp
 	$(CC) $(CFLAGS) ./Processor/Stack/Stack.cpp -o ./Processor/Stack/Stack.o
-
-Proc_Log_File.o: ./Processor/Log_File.cpp
-	$(CC) $(CFLAGS) ./Processor/Log_File.cpp -o ./Processor/Proc_Log_File.o
 
 run_proc:
 	./Processor/Processor.out
@@ -64,20 +60,17 @@ clean_proc:
 
 #RELATED TO DISASSEMBLER
 #*************************************************
-DISASM_OBJECTS = disasm_main.o Disassembler.o Reading_File.o Disasm_Log_File.o
-DISASM_FILES = ./Disassembler/disasm_main.o ./Disassembler/Disassembler.o Reading_File.o ./Disassembler/Disasm_Log_File.o
+DISASM_OBJECTS = disasm_main.o Disassembler.o
+DISASM_FILES = ./Disassembler/disasm_main.o ./Disassembler/Disassembler.o
 
 Disassembler: $(DISASM_OBJECTS)
-	$(CC) $(DISASM_FILES) -o ./Disassembler/Disassembler.out
+	$(CC) -o ./Disassembler/Disassembler.out $(DISASM_FILES) $(LOG_LIB)
 
 disasm_main.o: ./Disassembler/main.cpp
 	$(CC) $(CFLAGS) ./Disassembler/main.cpp -o ./Disassembler/disasm_main.o
 
 Disassembler.o: ./Disassembler/Disassembler.cpp
 	$(CC) $(CFLAGS) ./Disassembler/Disassembler.cpp -o ./Disassembler/Disassembler.o
-
-Disasm_Log_File.o: ./Disassembler/Log_File.cpp
-	$(CC) $(CFLAGS) ./Disassembler/Log_File.cpp -o ./Disassembler/Disasm_Log_File.o
 
 run_disasm:
 	./Disassembler/Disassembler.out
@@ -87,5 +80,5 @@ clean_disasm:
 	rm ./Disassembler/Disassembler.out
 #*************************************************
 
-Reading_File.o: Reading_File.cpp
-	$(CC) $(CFLAGS) Reading_File.cpp
+clean_log:
+	rm *.log
