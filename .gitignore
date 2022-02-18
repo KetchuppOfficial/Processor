@@ -4,3 +4,7 @@
 ./Code/
 
 ./Binary.bin
+
+*.o
+
+*.out
