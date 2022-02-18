@@ -1,9 +1,9 @@
-./Disassmbler/Disassembled.txt
-./Processor/Circle.txt
+Disassmbler/Disassembled.txt
+Processor/Circle.txt
 
-./Code/
+Code/
 
-./Binary.bin
+Binary.bin
 
 *.o
 
