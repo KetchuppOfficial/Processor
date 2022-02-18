@@ -88,7 +88,7 @@ int Write_Circle (struct Processor *pentium, const int radius)
     MY_ASSERT (radius > 1,              "const int radius",          RADIUS,   ERROR);
     MY_ASSERT (radius <= VERT_SIZE / 2, "const int radius",          RADIUS,   ERROR);
 
-    FILE *file = fopen ("Circle.txt", "wb");
+    FILE *file = fopen ("./Processor/Circle.txt", "wb");
 
     struct Circle circle = 
     {
