@@ -46,7 +46,7 @@ static const char *ERROR_DESCRIPTIONS[] =
     "Second brace expected",
     "Two brackets in a row",
 
-     "The radius of a circle has to be in range from 1 to 100",
+    "The radius of a circle has to be in range from 1 to 100",
 
     "Constructing error",
     "Pushing error",
@@ -83,93 +83,6 @@ static const char *ERROR_DESCRIPTIONS[] =
 
     "This node already has left son",
     "This node already has right son"
-};
-
-enum ERROR_TYPES
-{
-    UNDEF_BEH = 0,
-    FUNC_ERROR,
-
-    LOG_NOT_OPEN,
-    OPEN_ERR,
-    CLOSE_ERR,
-    EMP_FILE,
-    INCORR_FILE,
-    FILE_WRT,
-    FSEEK_ERR,
-    FTELL_ERR,
-    STAT_ERR,
-
-    POS_VAL,
-    UNEXP_VAL,
-    UNEXP_SYMB,
-    INT_EXPECTED,
-    NULL_PTR,
-    NOT_NULL_PTR,
-    NE_MEM,
-    NULL_POW_NULL,
-    DIV_BY_NULL,
-
-    INCORR_LBL,
-    EMP_LBL,
-    EQUAL_LBLS,
-    TF_LBLS,
-    UNKNOWN_JMP,
-    POS_LBL,
-    END_LBL,
-
-    UNDEF_CMD,
-    INCORR_ARG,
-    WRONG_DECIMAL,
-    TF_ARGS,
-    TM_ARGS,
-    LINE_ERR,
-    SCND_BRACE,
-    TWO_BRACK,
-
-    RADIUS,
-
-    CTOR_ERR,
-    PUSH_ERR,
-    POP_ERR,
-    DTOR_ERR,
-    UNINIT_STACK,
-    ZERO_POP,
-    MULT_CTOR,
-    BAD_RESIZE,
-    RSZ_ERR,
-    L_S_CANARY_CG,
-    R_S_CANARY_CG,
-    L_D_CANARY_CG,
-    R_D_CANARY_CG,
-    HASH_CHANGE,
-
-    ZERO_DIV,
-
-    END_I_ERR,
-    BEG_I_ERR,
-    LIST_UF,
-    LIST_OF,
-    INV_POS,
-    INV_DEL,
-    FREE_INSERT,
-    FREE_DEL,
-    BEFORE_ZERO,
-    UNINIT_LIST,
-    NO_NUM,
-    PREV_HEAD,
-    NEXT_TAIL,
-    LIST_DAM,
-    FREE_DAM,
-
-    HAS_L_SON,
-    HAS_R_SON
-};
-
-enum ERRORS
-{
-    NO_ERRORS = -101,
-    ERROR,
 };
 
 int Open_Log_File (void)
