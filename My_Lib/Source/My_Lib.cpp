@@ -87,7 +87,7 @@ static const char *ERROR_DESCRIPTIONS[] =
 
 int Open_Log_File (void)
 {
-    LOG_FILE = fopen ("log_file.log", "wb");
+    LOG_FILE = fopen ("log_file.log", "ab");
 
     if (!LOG_FILE)
     {
