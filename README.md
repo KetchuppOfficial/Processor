@@ -9,6 +9,8 @@
 
         2. [List of allowed instructions](#list-of-allowed-instructions)
 
+    2. [Example of program on assembler](#example-of-a-program-on-assember)
+
 # General information
 
 This project is called "Processor". It includes 3 programs: **Assembler**, **Processor** and **Disassembler**.
@@ -212,7 +214,7 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 4. **Extra instructions with only one argument (can be added)**: 8 (sizeof (double)) bytes contain a double number.
 
-## Example of a program on this assember
+## Example of a program on assember
 
 This program asks for 3 numbers (a, b, c). It return the result of expression: ab + c.
 
