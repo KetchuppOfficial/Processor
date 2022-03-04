@@ -171,31 +171,41 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
     > Then it is considered that **push** has number 12, **pop** has number 13.
 
     - `push 123.456`:
+
         0C 00 00 00 123.456
 
     - `push ax`:
+
         0C 00 01 00
 
     - `push [4]`:
+
         0C 01 00 01 4.0
 
     - `push [bx]`:
+
         0C 01 02 00
 
     - `push [ax + 4]`:
+
         0C 01 01 01 4.0
 
     - `pop`:
+
         0D 00 00 00
 
     - `pop ax`:
+
         0D 00 01 00
 
     - `pop [4]`:
+
         0D 01 00 01 4.0
 
     - `pop [bx]`:
+    
         0D 01 02 00
 
     - `pop [ax + 4]`:
+
         0D 01 01 01 4.0
