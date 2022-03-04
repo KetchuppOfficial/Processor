@@ -156,7 +156,7 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 1. **Instructions without arguments:** no extra bytes.
 
-2. **Jumps and call:** 4 bytes (sizeof (int)) contain ip of a new instruction.
+2. **Jumps and call:** 4 (sizeof (int)) bytes contain ip of a new instruction.
 
 3. **Push and pop:**
 
@@ -210,4 +210,30 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
         0D 01 01 01 4.0
 
-4. **Extra instructions with only one argument (can be added)**: 8 (sizeof (double)) contain a double number.
+4. **Extra instructions with only one argument (can be added)**: 8 (sizeof (double)) bytes contain a double number.
+
+## Example of a program on this assember
+
+This program asks for 3 numbers (a, b, c). It return the result of expression: ab + c.
+
+```asm
+in
+pop ax
+
+in
+pop bx
+
+in
+pop cx
+
+push ax
+push bx
+mul
+push cx
+add
+
+out
+hlt
+```
+
+More examples can be found in the folder [Code](https://github.com/KetchuppOfficial/Processor/tree/main/Code).
