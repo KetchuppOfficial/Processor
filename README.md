@@ -161,28 +161,41 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 3. **Push and pop**
 
     > 1st byte: RAM is used => 1; RAM isn't used => 0.
+
     > 2nd byte: registers aren't used => 0; **ax** is used => 1; **bx** is used => 2; **cx** is used => 3; **dx** is used => 4;
+
     > 3rd byte: argument contains a number => 1; argument doesn't contain a number => 0.
+
     > If 3rd byte is 1: 8 (`sizeof (double)`) contain a double number.
 
     > Then it is considered that **push** has number 12, **pop** has number 13.
 
-    - `push 123.456`:  0C 00 00 00 123.456
+    - `push 123.456`:
+        0C 00 00 00 123.456
 
-    - `push ax`:       0C 00 01 00
+    - `push ax`:
+        0C 00 01 00
 
-    - `push [4]`:      0C 01 00 01 4.0
+    - `push [4]`:
+        0C 01 00 01 4.0
 
-    - `push [bx]`:     0C 01 02 00
+    - `push [bx]`:
+        0C 01 02 00
 
-    - `push [ax + 4]`: 0C 01 01 01 4.0
+    - `push [ax + 4]`:
+        0C 01 01 01 4.0
 
-    - `pop`:           0D 00 00 00
+    - `pop`:
+        0D 00 00 00
 
-    - `pop ax`:        0D 00 01 00
+    - `pop ax`:
+        0D 00 01 00
 
-    - `pop [4]`:       0D 01 00 01 4.0
+    - `pop [4]`:
+        0D 01 00 01 4.0
 
-    - `pop [bx]`:      0D 01 02 00
+    - `pop [bx]`:
+        0D 01 02 00
 
-    - `pop [ax + 4]`:  0D 01 01 01 4.0
+    - `pop [ax + 4]`:
+        0D 01 01 01 4.0
