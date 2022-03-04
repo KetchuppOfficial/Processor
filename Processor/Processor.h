@@ -156,34 +156,36 @@ while (0)
 
 #define NOTHING code_arr[ip] == 0 && code_arr[ip + 1] == 0 && code_arr[ip + 2] == 0
 
-#define Arithmetic(operator)                                    \
-do                                                              \
-{                                                               \
-    double a = 0.0, b = 0.0;                                    \
-    POP(&b);                                                    \
-    POP(&a);                                                    \
-                                                                \
-    switch (operator)                                           \
-    {                                                           \
-        case '+':   PUSH (a + b); break;                        \
-        case '-':   PUSH (a - b); break;                        \
-        case '*':   PUSH (a * b); break;                        \
-        case '/':                                               \
-        {                                                       \
-            if (Compare_Double (a, 0) != EQUAL)                 \
-            {                                                   \
-                PUSH (a / b); break;                            \
-            }                                                   \
-            else                                                \
-            {                                                   \
-                MY_ASSERT (false, "double a", ZERO_DIV, ERROR); \
-            }                                                   \
-            break;                                              \
-        }                                                       \
-        default: MY_ASSERT (false, "None", UNDEF_BEH, ERROR);   \
-    }                                                           \
-    ip++;                                                       \
-}                                                               \
+#define Arithmetic(operator)                                                \
+do                                                                          \
+{                                                                           \
+    MY_ASSERT (pentium->stack->size >= 2, "stack size", ZERO_POP, ERROR);   \
+                                                                            \
+    double a = 0.0, b = 0.0;                                                \
+    POP(&b);                                                                \
+    POP(&a);                                                                \
+                                                                            \
+    switch (operator)                                                       \
+    {                                                                       \
+        case '+':   PUSH (a + b); break;                                    \
+        case '-':   PUSH (a - b); break;                                    \
+        case '*':   PUSH (a * b); break;                                    \
+        case '/':                                                           \
+        {                                                                   \
+            if (Compare_Double (a, 0) != EQUAL)                             \
+            {                                                               \
+                PUSH (a / b); break;                                        \
+            }                                                               \
+            else                                                            \
+            {                                                               \
+                MY_ASSERT (false, "double a", ZERO_DIV, ERROR);             \
+            }                                                               \
+            break;                                                          \
+        }                                                                   \
+        default: MY_ASSERT (false, "None", UNDEF_BEH, ERROR);               \
+    }                                                                       \
+    ip++;                                                                   \
+}                                                                           \
 while (0)
 
 #define JUMP(condition)                                                                 \
