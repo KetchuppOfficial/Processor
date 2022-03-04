@@ -189,6 +189,8 @@ while (0)
 #define JUMP(condition)                                                                 \
 do                                                                                      \
 {                                                                                       \
+    MY_ASSERT (pentium->stack->size >= 2, "stack size", ZERO_POP, ERROR);               \
+                                                                                        \
     double first = 0, second = 0;                                                       \
                                                                                         \
     POP (&second);                                                                      \
