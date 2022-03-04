@@ -1,5 +1,34 @@
 # Table of contents
 
+<style>
+    ol {
+        list-style: none;
+        counter-reset: li;
+    }
+    li:before {
+        counter-increment: li; 
+        content: counters(li,".") ". ";
+    }
+</style>
+
+<h1 id="table-of-contents">Table of contents</h1>
+<ol>
+<li><p><a href="#general-information">General information</a></p>
+</li>
+<li><p><a href="#assembler">Assembler</a></p>
+<ol>
+<li><p><a href="#assembler-syntaxis">Assembler syntaxis</a></p>
+<ol>
+<li><p><a href="#general-rules">General rules</a></p>
+</li>
+<li><p><a href="#list-of-allowed-instructions">List of allowed instructions</a></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
 1. [General information](#general-information)
 2. [Assembler](#assembler)
 
@@ -154,11 +183,11 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 > Each instruction can be translated in a 1, 2, 4, 5, 9 or 12 bytes (if sizeof (double) == 8). Each instruction starts with a byte encoding instruciton number.
 
-1. **Instructions without arguments**: no extra bytes.
+1. **Instructions without arguments:** no extra bytes.
 
-2. **Jumps and call**: 4 bytes (sizeof (int)) contain ip of a new instruction.
+2. **Jumps and call:** 4 bytes (sizeof (int)) contain ip of a new instruction.
 
-3. **Push and pop**
+3. **Push and pop:**
 
     > **1st byte:** RAM is used => 1; RAM isn't used => 0.
 
@@ -209,3 +238,5 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
     - `pop [ax + 4]`:
 
         0D 01 01 01 4.0
+
+4. **Extra instructions with only one argument (can be added)**: 8 (sizeof (double)) contain a double number.
