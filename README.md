@@ -1,3 +1,12 @@
+# Table of contents
+
+[1. General information](#general-information)
+[2. Assembler](#assembler)
+    [2.1. Assembler syntaxis](#assembler-syntaxis)
+        [2.1.1. General rules](#general-rules)
+        [2.1.2. List of allowed instructions](#list-of-allowed-instructions)
+        
+
 # General information
 
 This project is called "Processor". It includes 3 programs: **Assembler**, **Processor** and **Disassembler**.
@@ -136,3 +145,4 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
     Message on the screen:
 
     `Popped number: 1.123457`
+
