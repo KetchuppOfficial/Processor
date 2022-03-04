@@ -1,6 +1,4 @@
 #include "Assembler.h"
-//#include "../Log_File.h"
-//#include "../Libraries/Log_File.h"
 #include "../My_Lib/My_Lib.h"
 
 const char *BINARY_FILE = "Binary.bin";

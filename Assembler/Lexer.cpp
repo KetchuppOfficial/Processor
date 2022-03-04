@@ -1,6 +1,4 @@
 #include "Assembler.h"
-//#include "../Reading_File.h"
-//#include "../Libraries/Log_File.h"
 #include "../My_Lib/My_Lib.h"
 
 #define DEBUG 0
@@ -265,7 +263,8 @@ do                                              \
 {                                               \
     if (cmd_num == num)                         \
     {                                           \
-        if (strcmp ("jae",  #name) == 0 ||      \
+        if (strcmp ("jmp",  #name) == 0 ||      \
+            strcmp ("jae",  #name) == 0 ||      \
             strcmp ("jbe",  #name) == 0 ||      \
             strcmp ("ja",   #name) == 0 ||      \
             strcmp ("jb",   #name) == 0 ||      \
