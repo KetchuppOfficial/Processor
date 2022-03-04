@@ -1,14 +1,14 @@
 # Table of contents
 
-[1. General information](#general-information)
+1. [General information](#general-information)
 
-[2. Assembler](#assembler)
+2. [Assembler](#assembler)
+    
+    1. [Assembler syntaxis](#assembler-syntaxis)
 
-1.  [Assembler syntaxis](#assembler-syntaxis)
+        1.  [General rules](#general-rules)
 
-    1.  [General rules](#general-rules)
-
-    2.  [List of allowed instructions](#list-of-allowed-instructions)
+        2.  [List of allowed instructions](#list-of-allowed-instructions)
 
 
 # General information
