@@ -152,21 +152,21 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 ## Binary file standard
 
-> Each instruction can be translated in a 1, 2, 4, 5, 9 or 12 bytes (if `sizeof (double) == 8`). Each instruction starts with a byte encoding instruciton number.
+> Each instruction can be translated in a 1, 2, 4, 5, 9 or 12 bytes (if sizeof (double) == 8). Each instruction starts with a byte encoding instruciton number.
 
 1. **Instructions without arguments**: no extra bytes.
 
-2. **Jumps and call**: 4 bytes (`sizeof (int)`) contain ip of a new instruction.
+2. **Jumps and call**: 4 bytes (sizeof (int)) contain ip of a new instruction.
 
 3. **Push and pop**
 
-    > 1st byte: RAM is used => 1; RAM isn't used => 0.
+    > **1st byte:** RAM is used => 1; RAM isn't used => 0.
 
-    > 2nd byte: registers aren't used => 0; **ax** is used => 1; **bx** is used => 2; **cx** is used => 3; **dx** is used => 4;
+    > **2nd byte:** registers aren't used => 0; **ax** is used => 1; **bx** is used => 2; **cx** is used => 3; **dx** is used => 4;
 
-    > 3rd byte: argument contains a number => 1; argument doesn't contain a number => 0.
+    > **3rd byte:** argument contains a number => 1; argument doesn't contain a number => 0.
 
-    > If 3rd byte is 1: 8 (`sizeof (double)`) contain a double number.
+    > If 3rd byte is 1: 8 (sizeof (double)) contain a double number.
 
     > Then it is considered that **push** has number 12, **pop** has number 13.
 
@@ -203,7 +203,7 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
         0D 01 00 01 4.0
 
     - `pop [bx]`:
-    
+
         0D 01 02 00
 
     - `pop [ax + 4]`:
