@@ -9,7 +9,9 @@
 
         2. [List of allowed instructions](#list-of-allowed-instructions)
 
-    2. [Example of program on assembler](#example-of-a-program-on-assember)
+    2. [Binary file standard](#binary-file-standard)
+
+    3. [Example of program on assembler](#example-of-a-program-on-assember)
 
 # General information
 
