@@ -5,10 +5,30 @@
 
     1. [Assembler syntaxis](#assembler-syntaxis)
 
-        1.  [General rules](#general-rules)
+        1. [General rules](#general-rules)
 
-        2.  [List of allowed instructions](#list-of-allowed-instructions)
+        2. [List of allowed instructions](#list-of-allowed-instructions)
 
+
+<ol>
+  <li>пункт</li> <!-1.->
+  <li>пункт           
+    <ol>
+      <li>пункт</li> <!-2.1.->
+      <li>пункт</li> <!-2.2.->
+      <li>пункт
+        <ol>
+          <li>пункт</li> <!-2.3.1.->
+          <li>пункт</li> <!-2.3.2.->
+          <li>пункт</li> <!-2.3.3.-> 
+        </ol>
+      </li> <!-2.3.->
+      <li>пункт</li> <!-2.4.->  
+    </ol>
+  </li> <!-2.->
+  <li>пункт</li> <!-3.->        
+  <li>пункт</li> <!-4.->        
+</ol>
 
 # General information
 
