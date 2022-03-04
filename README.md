@@ -4,11 +4,11 @@
 
 [2. Assembler](#assembler)
 
-    [2.1. Assembler syntaxis](#assembler-syntaxis)
+-    [2.1. Assembler syntaxis](#assembler-syntaxis)
 
-        [2.1.1. General rules](#general-rules)
+--        [2.1.1. General rules](#general-rules)
 
-        [2.1.2. List of allowed instructions](#list-of-allowed-instructions)
+--        [2.1.2. List of allowed instructions](#list-of-allowed-instructions)
 
 
 # General information
