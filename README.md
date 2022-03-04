@@ -1,3 +1,5 @@
+\pagenumbering{Alph}
+
 # Table of contents
 
 1. [General information](#general-information)
