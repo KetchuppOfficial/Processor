@@ -58,6 +58,8 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
     
     - **pop**: pops something from stack. There are 4 variants of **pop**:
 
+        * `pop`: pops number from stack.
+
         * `pop ax`: pops number from stack and puts it in register **ax** (generally: ax, bx, cx or dx).
 
         * `push [4]`: pops number from stack and puts it in RAM cell with index 4 (generally: positive integer number).
@@ -148,3 +150,39 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
     `Popped number: 1.123457`
 
+## Binary file standard
+
+> Each instruction can be translated in a 1, 2, 4, 5, 9 or 12 bytes (if `sizeof (double) == 8`). Each instruction starts with a byte encoding instruciton number.
+
+1. **Instructions without arguments**: no extra bytes.
+
+2. **Jumps and call**: 4 bytes (`sizeof (int)`) contain ip of a new instruction.
+
+3. **Push and pop**
+
+    > 1st byte: RAM is used => 1; RAM isn't used => 0.
+    > 2nd byte: registers aren't used => 0; **ax** is used => 1; **bx** is used => 2; **cx** is used => 3; **dx** is used => 4;
+    > 3rd byte: argument contains a number => 1; argument doesn't contain a number => 0.
+    > If 3rd byte is 1: 8 (`sizeof (double)`) contain a double number.
+
+    > Then it is considered that **push** has number 12, **pop** has number 13.
+
+    - `push 123.456`:  0C 00 00 00 123.456
+
+    - `push ax`:       0C 00 01 00
+
+    - `push [4]`:      0C 01 00 01 4.0
+
+    - `push [bx]`:     0C 01 02 00
+
+    - `push [ax + 4]`: 0C 01 01 01 4.0
+
+    - `pop`:           0D 00 00 00
+
+    - `pop ax`:        0D 00 01 00
+
+    - `pop [4]`:       0D 01 00 01 4.0
+
+    - `pop [bx]`:      0D 01 02 00
+
+    - `pop [ax + 4]`:  0D 01 01 01 4.0
