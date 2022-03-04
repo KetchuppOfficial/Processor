@@ -1,34 +1,5 @@
 # Table of contents
 
-<style>
-    ol {
-        list-style: none;
-        counter-reset: li;
-    }
-    li:before {
-        counter-increment: li; 
-        content: counters(li,".") ". ";
-    }
-</style>
-
-<h1 id="table-of-contents">Table of contents</h1>
-<ol>
-<li><p><a href="#general-information">General information</a></p>
-</li>
-<li><p><a href="#assembler">Assembler</a></p>
-<ol>
-<li><p><a href="#assembler-syntaxis">Assembler syntaxis</a></p>
-<ol>
-<li><p><a href="#general-rules">General rules</a></p>
-</li>
-<li><p><a href="#list-of-allowed-instructions">List of allowed instructions</a></p>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
 1. [General information](#general-information)
 2. [Assembler](#assembler)
 
