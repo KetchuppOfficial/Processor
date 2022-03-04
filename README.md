@@ -32,30 +32,30 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 1. **Jumps**
 
-    1. **jmp** (jump): makes jump to the label which name is "label_name".
+    - **jmp** (jump): makes jump to the label which name is "label_name".
 
     `jmp "label_name"`
 
-    2. **ja** (jump if above): makes jump to the label which name is "label_name" if **PT** > **T**.
+    - **ja** (jump if above): makes jump to the label which name is "label_name" if **PT** > **T**.
 
     `ja "label_name"`
 
-    3. **jae** (jump if above or equal): makes jump to the label which name is "label_name" if **PT** >= **T**.
+    - **jae** (jump if above or equal): makes jump to the label which name is "label_name" if **PT** >= **T**.
 
     `jae "label_name"`
 
-    4. **jb** (jump if below): makes jump to the label which name is "label_name" if **PT** < **T**.
+    - **jb** (jump if below): makes jump to the label which name is "label_name" if **PT** < **T**.
 
     `jb "label_name"`
 
-    5. **jbe** (jump if below): makes jump to the label which name is "label_name" if **PT** <= **T**.
+    - **jbe** (jump if below): makes jump to the label which name is "label_name" if **PT** <= **T**.
 
     `jbe "label_name"`
 
-    6. **je** (jump if equal): makes jump to the label which name is "label_name" if **PT** == **T**.
+    - **je** (jump if equal): makes jump to the label which name is "label_name" if **PT** == **T**.
 
     `je "label_name"`
 
-    7. **jne** (jump if equal): makes jump to the label which name is "label_name" if **PT** != **T**.
+    - **jne** (jump if equal): makes jump to the label which name is "label_name" if **PT** != **T**.
 
     `jne "label_name"`
