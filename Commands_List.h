@@ -9,7 +9,15 @@ do
 while (0);
 );
 
-DEFCMD_(2,  jae,  1, 
+DEFCMD_(2,  jmp,  1,
+do
+{
+    ip = code_arr[ip + 1];
+}
+while (0);
+);
+
+DEFCMD_(3,  jae,  1, 
 do
 {
     JUMP (">=");
@@ -17,7 +25,7 @@ do
 while (0);
 );
 
-DEFCMD_(3,  ja,  1, 
+DEFCMD_(4,  ja,  1, 
 do
 {
     JUMP (">");
@@ -25,7 +33,7 @@ do
 while (0);
 );
 
-DEFCMD_(4,  jbe,  1, 
+DEFCMD_(5,  jbe,  1, 
 do
 {
     JUMP ("<=");
@@ -33,7 +41,7 @@ do
 while (0);
 );
 
-DEFCMD_(5,  jb,  1, 
+DEFCMD_(6,  jb,  1, 
 do
 {
     JUMP ("<");
@@ -41,7 +49,7 @@ do
 while (0);
 );
 
-DEFCMD_(6,  je,  1, 
+DEFCMD_(7,  je,  1, 
 do
 {
     JUMP ("==");
@@ -49,7 +57,7 @@ do
 while (0);
 );
 
-DEFCMD_(7,  jne,  1, 
+DEFCMD_(8,  jne,  1, 
 do
 {
     JUMP ("!=");
@@ -57,7 +65,7 @@ do
 while (0);
 );
 
-DEFCMD_(8, ret, 0,
+DEFCMD_(9, ret, 0,
 do
 {
     double a = 0.0;
@@ -67,7 +75,7 @@ do
 while (0);
 );
 
-DEFCMD_(9,  in,   0,
+DEFCMD_(10,  in,   0,
 do
 {
     double a = 0.0;
@@ -78,7 +86,7 @@ do
 while (0);
 );
 
-DEFCMD_(10,  out,  0,
+DEFCMD_(11,  out,  0,
 do
 {
     double a = 0.0;
@@ -89,7 +97,7 @@ do
 while (0);
 );
 
-DEFCMD_(11, push, 1,
+DEFCMD_(12, push, 1,
 do
 {
     ip++;
@@ -107,7 +115,7 @@ do
 while (0);
 );
 
-DEFCMD_(12, pop,  1,
+DEFCMD_(13, pop,  1,
 do
 {
     ip++;
@@ -128,7 +136,7 @@ do
 while (0);
 );
 
-DEFCMD_(13, add,  0, 
+DEFCMD_(14, add,  0, 
 do
 {
     Arithmetic ( '+' );
@@ -136,7 +144,7 @@ do
 while (0);
 );
 
-DEFCMD_(14, sub,  0,
+DEFCMD_(15, sub,  0,
 do
 {
     Arithmetic ( '-' ); 
@@ -144,7 +152,7 @@ do
 while (0);
 );
 
-DEFCMD_(15, mul,  0,
+DEFCMD_(16, mul,  0,
 do
 {
     Arithmetic ( '*' );
@@ -152,7 +160,7 @@ do
 while (0);
 );
 
-DEFCMD_(16, dvd,  0,
+DEFCMD_(17, dvd,  0,
 do
 {
     Arithmetic ( '/' );
@@ -160,7 +168,7 @@ do
 while (0);
 );
 
-DEFCMD_(17, sqrt, 0,
+DEFCMD_(18, sqrt, 0,
 do
 {
     double a = 0.0;
@@ -172,7 +180,7 @@ do
 while (0);
 );
 
-DEFCMD_(18, print_roots, 1,
+DEFCMD_(19, print_roots, 1,
 do
 {
     int n_roots = (int)*(double *)(code_arr + ip + 1);
@@ -193,7 +201,7 @@ do
 while (0);
 );
 
-DEFCMD_(19, write_circle, 1, 
+DEFCMD_(20, write_circle, 1, 
 do
 {
     Write_Circle (pentium, (int)*(double *)(code_arr + ip + 1));
