@@ -28,35 +28,35 @@ This project is called "Processor". It includes 3 programs: **Assembler**, **Pro
 
 ### List of allowed instructions
 
-> [!NOTE]
-> In this section the top of the stack is reffered as **T** (top), an element of the stack that is first "under" the top is reffered as **PT** (pre-top)
+!!! improtant "Abbreviations"
+    In this section the top of the stack is reffered as **T** (top), an element of the stack that is first "under" the top is reffered as **PT** (pre-top).
 
-1. Jumps
+1. **Jumps**
 
-    1. jmp (jump): makes jump to the label which name is "label_name".
+    1. **jmp** (jump): makes jump to the label which name is "label_name".
 
     `jmp "label_name"`
 
-    2. ja (jump if above): makes jump to the label which name is "label_name" if **PT** > **T**.
+    2. **ja** (jump if above): makes jump to the label which name is "label_name" if **PT** > **T**.
 
     `ja "label_name"`
 
-    3. jae (jump if above or equal): makes jump to the label which name is "label_name" if **PT** >= **T**.
+    3. **jae** (jump if above or equal): makes jump to the label which name is "label_name" if `**PT** >= **T**`.
 
     `jae "label_name"`
 
-    4. jb (jump if below): makes jump to the label which name is "label_name" if **PT** < **T**.
+    4. **jb** (jump if below): makes jump to the label which name is "label_name" if `**PT** < **T**`.
 
     `jb "label_name"`
 
-    5. jbe (jump if below): makes jump to the label which name is "label_name" if **PT** <= **T**.
+    5. **jbe** (jump if below): makes jump to the label which name is "label_name" if `**PT** <= **T**`.
 
     `jbe "label_name"`
 
-    6. je (jump if equal): makes jump to the label which name is "label_name" if **PT** == **T**.
+    6. **je** (jump if equal): makes jump to the label which name is "label_name" if `**PT** == **T**`.
 
     `je "label_name"`
 
-    7. jne (jump if equal): makes jump to the label which name is "label_name" if **PT** != **T**.
+    7. **jne** (jump if equal): makes jump to the label which name is "label_name" if `**PT** != **T**`.
 
     `jne "label_name"`
