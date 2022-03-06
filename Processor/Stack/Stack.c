@@ -365,7 +365,6 @@ int Stack_Dump (struct Stack *stack_ptr, FILE *output)
     fprintf (output, "ALL INFORMATION ABOUT STACK\n\n");
     fprintf (output, "POINTER ON STACK: %p\n", stack_ptr);
 
-    fprintf (output, "TYPE OF DATA: %s\n", typeid(stack_ptr->data[0]).name());
     #if SECURITY_LEVEL == 1 || SECURITY_LEVEL == 2
     fprintf (output, "LEFT STACK CANARY: %lX\n", stack_ptr->l_canary);
     #endif

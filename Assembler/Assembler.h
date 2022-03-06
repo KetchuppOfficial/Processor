@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include <math.h>
 
-const int MAX_NAME_SIZE = 32;
+#define MAX_NAME_SIZE 32
 
 //REALTED TO LEXER
 //******************************************************************************************************************************************
@@ -68,8 +68,8 @@ int Get_Brackets   (struct Argument *arg);
 int Get_Inside     (struct Argument *arg);
 int Get_Number     (struct Argument *arg);
 int Get_Reg        (struct Argument *arg);
-int Add_Token_     (struct Argument *arg, Types type, int parmN, ...);
-int Skip_Spaces    (struct Argument *arg, Skip_Modes mode);
+int Add_Token_     (struct Argument *arg, enum Types type, int parmN, ...);
+int Skip_Spaces    (struct Argument *arg, enum Skip_Modes mode);
 int Skip_Comments  (struct Argument *arg);
 int Show_Error     (struct Argument *arg, const char *err_description);
 int Require        (struct Argument *arg, const char symb);

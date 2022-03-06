@@ -5,6 +5,10 @@ Code/
 
 Binary.bin
 
+log_file.log
+
+Disassembler/Disassembled.txt
+
 *.o
 
 *.out

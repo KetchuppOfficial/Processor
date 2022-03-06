@@ -45,16 +45,16 @@ enum Pt_Types
     vertical
 };
 
-const double EPSILON = 1E-6;
-const int HOR_SIZE = 320;
-const int VERT_SIZE = 200;
+static const double EPSILON = 1E-6;
+static const int HOR_SIZE = 320;
+static const int VERT_SIZE = 200;
 
 char   *Get_Code      (int *max_ip);
 int    Process_Code   (const char *code_arr, const int max_ip, struct Processor *pentium);
 double Get_Double     (double *num);
 int    Compare_Double (const double first, const double second);
 int    Write_Circle   (struct Processor *pentium, const int radius);
-int    Change_Deltas  (struct Circle *circle, Pt_Types mode);
+int    Change_Deltas  (struct Circle *circle, enum Pt_Types mode);
 int    Put_In_RAM     (struct Processor *pentium, const struct Circle *circle);
 
 #define PUSH(value)   Stack_Push (&(pentium->stack), value);
@@ -159,7 +159,7 @@ while (0)
 #define Arithmetic(operator)                                                \
 do                                                                          \
 {                                                                           \
-    MY_ASSERT (pentium->stack->size >= 2, "stack size", ZERO_POP, ERROR);   \
+    MY_ASSERT (pentium->stack.size >= 2, "stack size", ZERO_POP, ERROR);   \
                                                                             \
     double a = 0.0, b = 0.0;                                                \
     POP(&b);                                                                \
@@ -191,7 +191,7 @@ while (0)
 #define JUMP(condition)                                                                 \
 do                                                                                      \
 {                                                                                       \
-    MY_ASSERT (pentium->stack->size >= 2, "stack size", ZERO_POP, ERROR);               \
+    MY_ASSERT (pentium->stack.size >= 2, "stack size", ZERO_POP, ERROR);               \
                                                                                         \
     double first = 0, second = 0;                                                       \
                                                                                         \

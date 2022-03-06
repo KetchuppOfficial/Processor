@@ -495,7 +495,7 @@ int Get_Reg (struct Argument *arg)
     return NO_ERRORS;
 }
 
-int Add_Token_ (struct Argument *arg, Types type, int parmN, ...)
+int Add_Token_ (struct Argument *arg, enum Types type, int parmN, ...)
 {
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
     
@@ -584,7 +584,7 @@ int Skip_Comments (struct Argument *arg)
     return NO_ERRORS;
 }
 
-int Skip_Spaces (struct Argument *arg, Skip_Modes mode)
+int Skip_Spaces (struct Argument *arg, enum Skip_Modes mode)
 {
     MY_ASSERT (arg, "struct Argument *arg", NULL_PTR, ERROR);
     

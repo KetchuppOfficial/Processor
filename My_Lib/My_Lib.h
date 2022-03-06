@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int My_Assert         (bool condition, const char *const file, const int line,
                        const char *const fun_name, const char *const var_name, const int err_name);

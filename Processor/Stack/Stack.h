@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#include <typeinfo>
 //-----------------------------------------------
 
 //-----------------------------------------------
@@ -117,10 +116,10 @@
 #endif
 //-----------------------------------------------
 
-const long          MIN_CAPACITY = 8;               ///< Minimal capacity of stack
-const long          MULTIPLIER   = 2;               ///< Coefficient that shows how many times the capacity will be increased/decreased after stack resizing
-const size_t        ELEM_SZ      = sizeof (ELEM_T); ///< Size of one element of stack in bytes
-const unsigned long STK_POISON       = 792647;          ///< Constant that becomes the value of each element of stack.data after deconstruction
+static const long          MIN_CAPACITY = 8;               ///< Minimal capacity of stack
+static const long          MULTIPLIER   = 2;               ///< Coefficient that shows how many times the capacity will be increased/decreased after stack resizing
+static const size_t        ELEM_SZ      = sizeof (ELEM_T); ///< Size of one element of stack in bytes
+static const unsigned long STK_POISON       = 792647;          ///< Constant that becomes the value of each element of stack.data after deconstruction
 
 struct Stack
 {

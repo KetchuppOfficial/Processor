@@ -1,4 +1,4 @@
-CC = g++
+CC = gcc -std=c17
 
 CFLAGS = -c -Wall -Werror
 
@@ -11,19 +11,19 @@ all: Assembler Processor Disassembler
 ASM_OBJECTS = asm_main.o Lexer.o Parser.o
 ASM_FILES = ./Assembler/asm_main.o ./Assembler/Lexer.o ./Assembler/Parser.o
 
-ASM_FILE = ./Code/Write_Circle.txt
+ASM_FILE = ./Code/Quadratic_Equation.txt
 
 Assembler: $(ASM_OBJECTS)
-	$(CC) -o ./Assembler/Assembler.out $(ASM_FILES) $(LOG_LIB)
+	$(CC) $(ASM_FILES) $(LOG_LIB) -o ./Assembler/Assembler.out -lm
 
-asm_main.o: ./Assembler/main.cpp
-	$(CC) $(CFLAGS) ./Assembler/main.cpp -o ./Assembler/asm_main.o
+asm_main.o: ./Assembler/main.c
+	$(CC) $(CFLAGS) ./Assembler/main.c -o ./Assembler/asm_main.o
 
-Lexer.o: ./Assembler/Lexer.cpp
-	$(CC) $(CFLAGS) ./Assembler/Lexer.cpp -o ./Assembler/Lexer.o
+Lexer.o: ./Assembler/Lexer.c
+	$(CC) $(CFLAGS) ./Assembler/Lexer.c -o ./Assembler/Lexer.o
 
-Parser.o: ./Assembler/Parser.cpp
-	$(CC) $(CFLAGS) ./Assembler/Parser.cpp -o ./Assembler/Parser.o
+Parser.o: ./Assembler/Parser.c
+	$(CC) $(CFLAGS) ./Assembler/Parser.c -o ./Assembler/Parser.o
 
 run_asm:
 	./Assembler/Assembler.out $(ASM_FILE)
@@ -39,16 +39,16 @@ PROC_OBJECTS = proc_main.o Processor.o Stack.o
 PROC_FILES = ./Processor/proc_main.o ./Processor/Processor.o ./Processor/Stack/Stack.o
 
 Processor: $(PROC_OBJECTS)
-	$(CC) -o ./Processor/Processor.out $(PROC_FILES) $(LOG_LIB)
+	$(CC) $(PROC_FILES) $(LOG_LIB) -o ./Processor/Processor.out -lm
 
-proc_main.o: ./Processor/main.cpp
-	$(CC) $(CFLAGS) ./Processor/main.cpp -o ./Processor/proc_main.o
+proc_main.o: ./Processor/main.c
+	$(CC) $(CFLAGS) ./Processor/main.c -o ./Processor/proc_main.o
 
-Processor.o: ./Processor/Processor.cpp
-	$(CC) $(CFLAGS) ./Processor/Processor.cpp -o ./Processor/Processor.o
+Processor.o: ./Processor/Processor.c
+	$(CC) $(CFLAGS) ./Processor/Processor.c -o ./Processor/Processor.o
 
-Stack.o: ./Processor/Stack/Stack.cpp
-	$(CC) $(CFLAGS) ./Processor/Stack/Stack.cpp -o ./Processor/Stack/Stack.o
+Stack.o: ./Processor/Stack/Stack.c
+	$(CC) $(CFLAGS) ./Processor/Stack/Stack.c -o ./Processor/Stack/Stack.o
 
 run_proc:
 	./Processor/Processor.out
@@ -64,13 +64,13 @@ DISASM_OBJECTS = disasm_main.o Disassembler.o
 DISASM_FILES = ./Disassembler/disasm_main.o ./Disassembler/Disassembler.o
 
 Disassembler: $(DISASM_OBJECTS)
-	$(CC) -o ./Disassembler/Disassembler.out $(DISASM_FILES) $(LOG_LIB)
+	$(CC) $(DISASM_FILES) $(LOG_LIB) -o ./Disassembler/Disassembler.out
 
-disasm_main.o: ./Disassembler/main.cpp
-	$(CC) $(CFLAGS) ./Disassembler/main.cpp -o ./Disassembler/disasm_main.o
+disasm_main.o: ./Disassembler/main.c
+	$(CC) $(CFLAGS) ./Disassembler/main.c -o ./Disassembler/disasm_main.o
 
-Disassembler.o: ./Disassembler/Disassembler.cpp
-	$(CC) $(CFLAGS) ./Disassembler/Disassembler.cpp -o ./Disassembler/Disassembler.o
+Disassembler.o: ./Disassembler/Disassembler.c
+	$(CC) $(CFLAGS) ./Disassembler/Disassembler.c -o ./Disassembler/Disassembler.o
 
 run_disasm:
 	./Disassembler/Disassembler.out

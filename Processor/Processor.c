@@ -155,7 +155,7 @@ int Write_Circle (struct Processor *pentium, const int radius)
     return NO_ERRORS;
 }
 
-int Change_Deltas (struct Circle *circle, Pt_Types mode)
+int Change_Deltas (struct Circle *circle, enum Pt_Types mode)
 {
     MY_ASSERT (circle, "struct Circle *circle", NULL_PTR, ERROR);
 
