@@ -11,8 +11,6 @@ all: Assembler Processor Disassembler
 ASM_OBJECTS = asm_main.o Lexer.o Parser.o
 ASM_FILES = ./Assembler/asm_main.o ./Assembler/Lexer.o ./Assembler/Parser.o
 
-ASM_FILE = ./Code/Quadratic_Equation.txt
-
 Assembler: $(ASM_OBJECTS)
 	$(CC) $(ASM_FILES) $(LOG_LIB) -o ./Assembler/Assembler.out -lm
 
@@ -26,11 +24,11 @@ Parser.o: ./Assembler/Parser.c
 	$(CC) $(CFLAGS) ./Assembler/Parser.c -o ./Assembler/Parser.o
 
 run_asm:
-	./Assembler/Assembler.out $(ASM_FILE)
+	./Assembler/Assembler.out $(IN) $(OUT)
 
 clean_asm:
-	rm $(ASM_FILES)
-	rm ./Assembler/Assembler.out
+	rm -rf $(ASM_FILES)
+	rm -rf ./Assembler/Assembler.out
 #*************************************************
 
 #RELATED TO PROCESSOR
@@ -51,11 +49,11 @@ Stack.o: ./Processor/Stack/Stack.c
 	$(CC) $(CFLAGS) ./Processor/Stack/Stack.c -o ./Processor/Stack/Stack.o
 
 run_proc:
-	./Processor/Processor.out
+	./Processor/Processor.out $(IN)
 
 clean_proc:
-	rm $(PROC_FILES)
-	rm ./Processor/Processor.out
+	rm -rf $(PROC_FILES)
+	rm -rf ./Processor/Processor.out
 #*************************************************
 
 #RELATED TO DISASSEMBLER
@@ -76,9 +74,9 @@ run_disasm:
 	./Disassembler/Disassembler.out
 
 clean_disasm:
-	rm $(DISASM_FILES)
-	rm ./Disassembler/Disassembler.out
+	rm -rf $(DISASM_FILES)
+	rm -rf ./Disassembler/Disassembler.out
 #*************************************************
 
 clean_log:
-	rm *.log
+	rm -rf *.log

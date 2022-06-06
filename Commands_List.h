@@ -91,7 +91,7 @@ do
 {
     double a = 0.0;
     POP(&a);
-    printf ("Popped number: %.2f\n", a);
+    printf ("Popped number: %g\n", a);
     ip++;
 }
 while (0);

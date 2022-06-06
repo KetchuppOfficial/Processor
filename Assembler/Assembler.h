@@ -8,6 +8,8 @@
 #include <ctype.h>
 #include <math.h>
 
+#include "../My_Lib/My_Lib.h"
+
 #define MAX_NAME_SIZE 32
 
 //REALTED TO LEXER
@@ -30,8 +32,8 @@ union Value
     int    reg_name;
     int    plus;
     double number;
-    char label[MAX_NAME_SIZE];
-    char jmp_arg[MAX_NAME_SIZE];
+    char   label  [MAX_NAME_SIZE];
+    char   jmp_arg[MAX_NAME_SIZE];
 };
 
 struct Token
@@ -55,6 +57,7 @@ enum Skip_Modes
     EOL,
     MOL
 };
+
 struct Token *Read_Asm (int *n_tokens, const char *cmd_file_name);
 const char   *Show_CMD_Name (const int cmd_n);
 struct Token *Lexer         (const char *str, const long n_symbs, int *n_tokens);
@@ -86,7 +89,7 @@ struct Label
     int  next_cmd_ip;
 };
 
-int  Make_Binary        (const struct Token *token_arr, const int n_tokens);
+int  Make_Binary        (const struct Token *token_arr, const int n_tokens, const char *output_name);
 char *First_Passing     (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size);
 int  Check_Equal_Labels (const struct Label *label_arr, const int n_labels);
 int  Second_Passing     (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code);

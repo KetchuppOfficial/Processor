@@ -1,0 +1,108 @@
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+; This program solves equations of type ax^2 + bx + c = 0 ;
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+
+    push 124.1
+    pop ax	; coefficient "a" in register ax
+
+    push -2345.8
+    pop bx	; coefficient "b" in register bx
+
+    push 294.4
+    pop cx	; coefficient "c" in register cx
+
+    push ax
+    push 0
+    je linear
+
+    push bx
+    push bx
+    mul
+
+    push 4
+    push ax
+    push cx
+    mul
+    mul
+
+    sub
+    pop dx	; discriminant in register dx
+
+    push dx
+    push 0
+    jb no_roots
+
+    push dx
+    push 0
+    je equal_roots
+
+    push dx
+    sqrt
+    pop dx
+
+    push -1
+    push bx
+    mul
+    push dx
+    sub
+    push 2
+    push ax
+    mul
+    dvd
+    pop
+
+    push -1
+    push bx
+    mul
+    push dx
+    add
+    push 2
+    push ax
+    mul
+    dvd
+    pop
+    hlt
+
+equal_roots:
+
+    push -1
+    push bx
+    mul
+    push 2
+    push ax
+    mul
+    dvd
+    pop
+    hlt
+
+linear:
+
+    push bx
+    push 0
+    je only_c
+
+    push -1
+    push cx
+    mul
+    push bx
+    dvd
+    pop
+    hlt
+
+only_c:
+
+    push cx
+    push 0
+    je inf_roots
+
+no_roots:
+
+    push 1.2345
+    pop
+    hlt
+
+inf_roots:
+
+    push 666
+    pop
+    hlt

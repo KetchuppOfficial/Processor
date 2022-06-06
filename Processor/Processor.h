@@ -6,13 +6,19 @@
 #include <string.h>
 #include <math.h>
 #include "./Stack/Stack.h"
+#include "../My_Lib/My_Lib.h"
+
+#ifndef DEBUG
+#undef MY_ASSERT
+#define MY_ASSERT(condition, var, err_num, error) ;
+#endif
 
 struct Processor
 {
     struct Stack stack;
     struct Stack call_stack;
     double RAM[4096];
-    double REG[4];
+    double REG[4];  
     char   GRAM[64000];
 };
 
@@ -49,7 +55,7 @@ static const double EPSILON = 1E-6;
 static const int HOR_SIZE = 320;
 static const int VERT_SIZE = 200;
 
-char   *Get_Code      (int *max_ip);
+char   *Get_Code      (const char *file_name, int *max_ip);
 int    Process_Code   (const char *code_arr, const int max_ip, struct Processor *pentium);
 double Get_Double     (double *num);
 int    Compare_Double (const double first, const double second);
@@ -191,7 +197,7 @@ while (0)
 #define JUMP(condition)                                                                 \
 do                                                                                      \
 {                                                                                       \
-    MY_ASSERT (pentium->stack.size >= 2, "stack size", ZERO_POP, ERROR);               \
+    MY_ASSERT (pentium->stack.size >= 2, "stack size", ZERO_POP, ERROR);                \
                                                                                         \
     double first = 0, second = 0;                                                       \
                                                                                         \

@@ -1,5 +1,4 @@
-#include "Assembler.h"
-#include "../My_Lib/My_Lib.h"
+#include "../Assembler.h"
 
 #define DEBUG 0
 
@@ -58,7 +57,7 @@ while (0)
 
 const char *Show_CMD_Name (const int cmd_n)
 {
-    #include "../Commands_List.h"
+    #include "../../Commands_List.h"
 
     return NULL;
 }
@@ -195,7 +194,7 @@ int Check_Name (struct Argument *arg, const char *name_arr)
             MY_ASSERT (false, "const char *name_arr", UNDEF_CMD, ERROR);
         }
 
-        #include "../Commands_List.h"
+        #include "../../Commands_List.h"
     }
 }
 
@@ -223,7 +222,7 @@ int Check_N_Args (struct Argument *arg, const int cmd_n)
             MY_ASSERT (false, "const int *cmd_n", UNDEF_CMD, ERROR);
         }
         
-        #include "../Commands_List.h"
+        #include "../../Commands_List.h"
     }
 }
 #undef DEFCMD_
@@ -280,7 +279,7 @@ while (0)
 
 int Check_If_Jump (const int cmd_num)
 {
-    #include "../Commands_List.h"
+    #include "../../Commands_List.h"
 
     MY_ASSERT (false, "const int cmd_num", UNDEF_CMD, ERROR);
 }
@@ -304,7 +303,7 @@ while (0)
 
 int Check_If_Push_Pop (const int pp_num)
 {
-    #include "../Commands_List.h"
+    #include "../../Commands_List.h"
 
     MY_ASSERT (false, "const int pp_num", UNDEF_CMD, ERROR);
 }
@@ -594,8 +593,11 @@ int Skip_Spaces (struct Argument *arg, enum Skip_Modes mode)
 
     if (mode == MOL && (arg->str[arg->symb_i] == '\n' || arg->str[arg->symb_i] == '\r'))
     {
-        Show_Error (arg, "Incomplete line");
-        MY_ASSERT (false, "Skip_Modes mode", LINE_ERR, ERROR);
+        if (arg->token_arr[arg->token_i - 1].value.cmd_num != 13)
+        {
+            Show_Error (arg, "Incomplete line");
+            MY_ASSERT (false, "Skip_Modes mode", LINE_ERR, ERROR);
+        }
     }
     else if (mode == EOL && arg->symb_i < arg->n_symbs && !isspace (arg->str[arg->symb_i]))
     {

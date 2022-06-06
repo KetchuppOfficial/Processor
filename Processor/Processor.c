@@ -1,13 +1,11 @@
 #include "Processor.h"
-#include "../My_Lib/My_Lib.h"
 
-extern const char *BINARY_FILE;
-
-char *Get_Code (int *max_ip)
+char *Get_Code (const char *file_name, int *max_ip)
 {
-    MY_ASSERT (max_ip, "int *max_ip", NULL_PTR, NULL);
+    MY_ASSERT (file_name, "const char *file_name", NULL_PTR, NULL);
+    MY_ASSERT (max_ip,    "int *max_ip",           NULL_PTR, NULL);
     
-    FILE *file_ptr = Open_File (BINARY_FILE, "rb");
+    FILE *file_ptr = Open_File (file_name, "rb");
 
     int n_symbs = (int)Define_File_Size (file_ptr);
 
@@ -16,7 +14,7 @@ char *Get_Code (int *max_ip)
 
     fread (code, sizeof (unsigned char), n_symbs, file_ptr);
 
-    Close_File (file_ptr, BINARY_FILE);
+    Close_File (file_ptr, file_name);
 
     *max_ip = n_symbs;
 

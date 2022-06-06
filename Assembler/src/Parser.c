@@ -1,13 +1,10 @@
-#include "Assembler.h"
-#include "../My_Lib/My_Lib.h"
+#include "../Assembler.h"
 
-extern const char *BINARY_FILE;
-
-int Make_Binary (const struct Token *token_arr, const int n_tokens)
+int Make_Binary (const struct Token *token_arr, const int n_tokens, const char *output_name)
 {
     MY_ASSERT (token_arr, "const struct Token *token_arr", NULL_PTR, ERROR);
 
-    FILE *file_ptr = Open_File (BINARY_FILE, "wb");
+    FILE *file_ptr = Open_File (output_name, "wb");
 
     struct Label *label_arr = (struct Label *)calloc (n_tokens, sizeof (struct Label));
     MY_ASSERT (label_arr, "struct Label *label_arr", NE_MEM, ERROR);
@@ -29,7 +26,7 @@ int Make_Binary (const struct Token *token_arr, const int n_tokens)
     free (label_arr);
     free (code);
 
-    Close_File (file_ptr, BINARY_FILE);
+    Close_File (file_ptr, output_name);
 
     return NO_ERRORS;
 }
@@ -50,29 +47,24 @@ while (0)
 
 int Check_If_Pop (const int cmd_num)
 {
-    #include "../Commands_List.h"
+    #include "../../Commands_List.h"
 
-    MY_ASSERT (false, "const int cmd_num", UNDEF_CMD, ERROR);
+    return 0;
 }
 #undef DEFCMD_
 //**************************************************************
 
-#define DEFCMD_(num, name, n_args, code)        \
-do                                              \
-{                                               \
-    if (cmd_num == num)                         \
-    {                                           \
-        if (strcmp (#name, cmd_name) == 0)      \
-            return 1;                           \
-        else                                    \
-            return 0;                           \
-    }                                           \
-}                                               \
+#define DEFCMD_(num, name, n_args, code)    \
+do                                          \
+{                                           \
+    if (strcmp (#name, cmd_name) == 0)      \
+        return 1;                           \
+}                                           \
 while (0)
 
 int Check_CMD_By_Num (const int cmd_num, const char *cmd_name)
 {
-    #include "../Commands_List.h"
+    #include "../../Commands_List.h"
 
     return 0;
 }
@@ -97,15 +89,18 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
         switch (token_arr[i].type)
         {
             case CMD:
-                code[ip++] = token_arr[i].value.cmd_num;
                 if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
                     ip += 3;
+                
+                code[ip++] = token_arr[i].value.cmd_num;
                 break;
+
             case BRACKET:
                 if (token_arr[i].value.bracket == '[')
                     code[ip++] = 1;
 
                 break;
+
             case REG:
                 if (token_arr[i - 1].type == CMD)
                     ip++;
@@ -118,8 +113,10 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
                     ip++;
 
                 break;
+
             case PLUS:
                 break;
+
             case NUM:
                 switch (token_arr[i - 1].type)
                 {
@@ -143,13 +140,22 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
                         break;
                     case REG: case NUM: case LBL: case JMP_ARG:
                         break;
+
+                    default:
+                        MY_ASSERT (false, "token_arr[i].type", UNEXP_VAL, NULL);
+                        break;
                 }
                 break;
+
             case LBL:
+                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                    ip += 3;
+
                 memmove (label_arr[label_i].name, token_arr[i].value.label, MAX_NAME_SIZE);
                 label_arr[label_i].next_cmd_ip = ip;
                 label_i++;
                 break;
+                
             case JMP_ARG:
                 ip += sizeof (int);
                 break;
@@ -199,9 +205,9 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
                 ip += sizeof (int);
                 break;
             case CMD:
-                ip++;
                 if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
                     ip += 3;
+                ip++;
                 break;
             case BRACKET:
                 if (token_arr[i].value.bracket == '[')
@@ -235,9 +241,13 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
                             ip += 3;
                         ip += sizeof (double);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 break;
+
+            default:
+                MY_ASSERT (false, "token_arr[i].type", UNEXP_VAL, ERROR);
         }
     }
 

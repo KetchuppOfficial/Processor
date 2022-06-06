@@ -1,8 +1,6 @@
 Disassmbler/Disassembled.txt
 Processor/Circle.txt
 
-Code/
-
 Binary.bin
 
 log_file.log
@@ -10,5 +8,5 @@ log_file.log
 Disassembler/Disassembled.txt
 
 *.o
-
+*.d
 *.out
