@@ -14,24 +14,31 @@ SUBS := $(subst $(SRCDIR), $(BUILDDIR), $(SUBS))
 OBJ  = $(SUBS:.c=.o)
 DEPS = $(SUBS:.c=.d)
 
-.PHONY: all
+LIBS_LIST = My_Lib
+LIBSDIR = $(addprefix ../, $(LIBS_LIST))
+LIBS = $(addsuffix /*.a, $(LIBSDIR))
 
-all: $(DEPS) $(OBJ)
+.PHONY: all $(LIBSDIR)
+
+all: $(DEPS) $(OBJ) $(LIBSDIR)
 	@mkdir -p $(BIN)
 	@echo "Linking project..."
-	@$(CC) $(OBJ) -o $(BIN)Assembler.out
+	@$(CC) $(OBJ) $(LIBS) -lm -o $(BIN)Assembler.out
+
+$(LIBSDIR):
+	@$(MAKE) -C $@ --no-print-directory -f Makefile.mak
 
 $(BUILDDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(dir $@)
 	@echo "Compiling \"$<\"..."
-	@$(CC) $(CFLAGS) -g $(OPT) -c $< -o $@
+	@$(CC) $(CFLAGS) -g $(OPT) -c -I$(LIBSDIR) $< -o $@
 
 include $(DEPS)
 
 $(BUILDDIR)%.d: $(SRCDIR)%.c
 	@echo "Collecting dependencies for \"$<\"..."
 	@mkdir -p $(dir $@)
-	@$(CC) -E $(CFLAGS) $< -MM -MT $(@:.d=.o) > $@
+	@$(CC) -E $(CFLAGS) -I$(LIBSDIR) $< -MM -MT $(@:.d=.o) > $@
 
 .PHONY: run clean
 
@@ -40,4 +47,4 @@ clean:
 
 run: $(BIN)Assembler.out
 	@echo "Running \"$<\"..."
-	@$(BIN)Assembler.out $(IN)
+	@$(BIN)Assembler.out $(IN) $(OUT)

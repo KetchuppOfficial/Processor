@@ -1,58 +1,51 @@
 #include "../Assembler.h"
 
-int Make_Binary (const struct Token *token_arr, const int n_tokens, const char *output_name)
+enum PUSH_POP
 {
-    MY_ASSERT (token_arr, "const struct Token *token_arr", NULL_PTR, ERROR);
+    PUSH = 1,
+    POP  = 2
+};
 
-    FILE *file_ptr = Open_File (output_name, "wb");
+struct Label
+{
+    char name[MAX_NAME_SIZE];
+    int  next_cmd_ip;
+};
 
-    struct Label *label_arr = (struct Label *)calloc (n_tokens, sizeof (struct Label));
-    MY_ASSERT (label_arr, "struct Label *label_arr", NE_MEM, ERROR);
-    int n_labels = 0;
-
-    size_t code_size = 0;
-    
-    char *code = First_Passing (token_arr, n_tokens, label_arr, &n_labels, &code_size);
-    MY_ASSERT (code != NULL, "First_Passing ()", FUNC_ERROR, ERROR);
-
-    if (Check_Equal_Labels (label_arr, n_labels) == ERROR)
-        MY_ASSERT (false, "Check_Equal_Labels ()", FUNC_ERROR, ERROR);
-
-    if (Second_Passing (token_arr, n_tokens, label_arr, n_labels, code) == ERROR)
-        MY_ASSERT (false, "Second_Passing ()", FUNC_ERROR, ERROR);
-
-    fwrite (code, sizeof (char), code_size, file_ptr);
-    
-    free (label_arr);
-    free (code);
-
-    Close_File (file_ptr, output_name);
-
-    return NO_ERRORS;
-}
-
-//**************************************************************
 #define DEFCMD_(num, name, n_args, code)    \
-do                                          \
-{                                           \
-    if (cmd_num == num)                     \
-    {                                       \
-        if (strcmp ("pop", #name) == 0)     \
-            return 1;                       \
-        else                                \
-            return 0;                       \
-    }                                       \
-}                                           \
-while (0)
+case num:                                   \
+        return #name;
 
-int Check_If_Pop (const int cmd_num)
+static const char *Get_CMD_Name (const int cmd_n)
 {
-    #include "../../Commands_List.h"
+    switch (cmd_n)
+    {
+        #include "../../Commands_List.h"
 
-    return 0;
+        default:
+            MY_ASSERT (false, "const int cmd_n", UNEXP_VAL, NULL);
+            break;
+    }
+
+    return NULL;
 }
+
 #undef DEFCMD_
-//**************************************************************
+
+static int Check_If_Push_Pop (const int cmd_num)
+{
+    printf ("cmd_num = %d\n", cmd_num);
+    
+    const char *cmd_name = Get_CMD_Name (cmd_num);
+    MY_ASSERT (cmd_name, "Get_CMD_Name ()", FUNC_ERROR, ERROR);
+
+    if (strncmp ("pop", cmd_name, sizeof ("pop") - 1) == 0)
+        return POP;
+    else if (strncmp ("push", cmd_name, sizeof ("push") - 1) == 0)
+        return PUSH;
+    else
+        return 0;
+}
 
 #define DEFCMD_(num, name, n_args, code)    \
 do                                          \
@@ -71,7 +64,7 @@ int Check_CMD_By_Num (const int cmd_num, const char *cmd_name)
 #undef DEFCMD_
 //**************************************************************
 
-char *First_Passing (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size)
+static char *First_Passing (const struct Token *token_arr, const int n_tokens, struct Label *label_arr, int *n_labels, size_t *code_size)
 {
     MY_ASSERT (token_arr, "const struct Token *token_arr", NULL_PTR, NULL);
     MY_ASSERT (label_arr, "struct Label *label_arr",       NULL_PTR, NULL);
@@ -89,7 +82,7 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
         switch (token_arr[i].type)
         {
             case CMD:
-                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == POP)
                     ip += 3;
                 
                 code[ip++] = token_arr[i].value.cmd_num;
@@ -122,22 +115,25 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
                 {
                     case BRACKET:
                         ip++;
+
                     case PLUS:
                         code[ip++] = 1;
                         *(int *)(code + ip) = (int)token_arr[i].value.number;
                         ip += sizeof (int);
                         break;
+
                     case CMD:
-                        if (Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                        if (Check_If_Push_Pop (token_arr[i - 1].value.cmd_num))
                         {
-                            if (Check_If_Pop (token_arr[i].value.cmd_num) == 1)
-                                MY_ASSERT (false, "\"pop\" instruction", INCORR_ARG, NULL);
+                            if (Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == POP)
+                                MY_ASSERT (false, "token_arr[i].value.cmd_num", UNEXP_VAL, NULL);
                             ip += 2;
                             code[ip++] = 1;
                         }
                         *(double *)(code + ip) = token_arr[i].value.number;
                         ip += sizeof (double);
                         break;
+
                     case REG: case NUM: case LBL: case JMP_ARG:
                         break;
 
@@ -148,7 +144,7 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
                 break;
 
             case LBL:
-                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == POP)
                     ip += 3;
 
                 memmove (label_arr[label_i].name, token_arr[i].value.label, MAX_NAME_SIZE);
@@ -170,17 +166,21 @@ char *First_Passing (const struct Token *token_arr, const int n_tokens, struct L
     return code;
 }
 
-int Check_Equal_Labels (const struct Label *label_arr, const int n_labels)
+static int Find_Label (const struct Label *label_arr, const int n_labels, const char *label_name)
 {
-    for (int i = 0; i < n_labels - 1; i++)
-        for (int j = i + 1; j < n_labels; j++)
-            if (strcmp (label_arr[i].name, label_arr[j].name) == 0)
-                MY_ASSERT (false, "const struct Label *label_arr", EQUAL_LBLS, ERROR);
+    MY_ASSERT (label_arr,  "const struct Label *label_arr", NULL_PTR, ERROR);
+    MY_ASSERT (label_name, "const char *label_name",        NULL_PTR, ERROR);
+    
+    for (int i = 0; i < n_labels; i++)
+    {
+        if (strcmp (label_arr[i].name, label_name) == 0)
+            return i;
+    }
 
-    return NO_ERRORS;
+    return -1;
 }
 
-int Second_Passing (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code)
+static int Second_Passing (const struct Token *token_arr, const int n_tokens, const struct Label *label_arr, const int n_labels, char *code)
 {
     MY_ASSERT (code,      "char *code",                    NULL_PTR, ERROR);
     MY_ASSERT (label_arr, "struct Label *label_arr",       NULL_PTR, ERROR);
@@ -199,13 +199,13 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
                 if (label_i == -1)
                 {
                     printf ("UNKNOWN JUMP: %s\n", token_arr[i].value.jmp_arg);
-                    MY_ASSERT (false, "None", UNKNOWN_JMP, ERROR);
+                    MY_ASSERT (false, "token_arr[i].value.jmp_arg", UNEXP_VAL, ERROR);
                 }
                 *(int *)(code + ip) = label_arr[label_i].next_cmd_ip;
                 ip += sizeof (int);
                 break;
             case CMD:
-                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                if (i > 0 && token_arr[i - 1].type == CMD && Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == POP)
                     ip += 3;
                 ip++;
                 break;
@@ -237,7 +237,7 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
                         ip += sizeof (int) + 1;
                         break;
                     case CMD:
-                        if (Check_If_Push_Pop (token_arr[i - 1].value.cmd_num) == 1)
+                        if (Check_If_Push_Pop (token_arr[i - 1].value.cmd_num))
                             ip += 3;
                         ip += sizeof (double);
                         break;
@@ -254,16 +254,43 @@ int Second_Passing (const struct Token *token_arr, const int n_tokens, const str
     return NO_ERRORS;
 }
 
-int Find_Label (const struct Label *label_arr, const int n_labels, const char *label_name)
+static int Check_Equal_Labels (const struct Label *label_arr, const int n_labels)
 {
-    MY_ASSERT (label_arr,  "const struct Label *label_arr", NULL_PTR, ERROR);
-    MY_ASSERT (label_name, "const char *label_name",        NULL_PTR, ERROR);
-    
-    for (int i = 0; i < n_labels; i++)
-    {
-        if (strcmp (label_arr[i].name, label_name) == 0)
-            return i;
-    }
+    for (int i = 0; i < n_labels - 1; i++)
+        for (int j = i + 1; j < n_labels; j++)
+            if (strcmp (label_arr[i].name, label_arr[j].name) == 0)
+                MY_ASSERT (false, "label_arr[i].name", UNEXP_VAL, ERROR);
 
-    return -1;
+    return NO_ERRORS;
+}
+
+int Make_Binary (const struct Token *token_arr, const int n_tokens, const char *output_name)
+{
+    MY_ASSERT (token_arr, "const struct Token *token_arr", NULL_PTR, ERROR);
+
+    FILE *file_ptr = Open_File (output_name, "wb");
+
+    struct Label *label_arr = (struct Label *)calloc (n_tokens, sizeof (struct Label));
+    MY_ASSERT (label_arr, "struct Label *label_arr", NE_MEM, ERROR);
+    int n_labels = 0;
+
+    size_t code_size = 0;
+    
+    char *code = First_Passing (token_arr, n_tokens, label_arr, &n_labels, &code_size);
+    MY_ASSERT (code != NULL, "First_Passing ()", FUNC_ERROR, ERROR);
+
+    if (Check_Equal_Labels (label_arr, n_labels) == ERROR)
+        MY_ASSERT (false, "Check_Equal_Labels ()", FUNC_ERROR, ERROR);
+
+    if (Second_Passing (token_arr, n_tokens, label_arr, n_labels, code) == ERROR)
+        MY_ASSERT (false, "Second_Passing ()", FUNC_ERROR, ERROR);
+
+    fwrite (code, sizeof (char), code_size, file_ptr);
+    
+    free (label_arr);
+    free (code);
+
+    Close_File (file_ptr, output_name);
+
+    return NO_ERRORS;
 }

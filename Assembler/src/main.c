@@ -7,7 +7,7 @@ int Check_Argc (const int argc, const int expected)
 
 int main (int argc, char *argv[])
 {
-    OPEN_LOG_FILE;
+    Open_Log_File ("Assembler");
 
     MY_ASSERT (Check_Argc (argc, 3) == 0, "int argc", UNEXP_VAL, ERROR);
 
