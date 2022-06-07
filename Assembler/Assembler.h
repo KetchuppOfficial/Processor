@@ -7,14 +7,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <assert.h>
 
 #include "../My_Lib/My_Lib.h"
 
 #define MAX_NAME_SIZE 32
 
-//REALTED TO LEXER
-//******************************************************************************************************************************************
 enum Types
 {
     CMD,
@@ -45,6 +42,5 @@ struct Token
 
 struct Token *Read_Asm    (int *n_tokens, const char *cmd_file_name);
 int           Make_Binary (const struct Token *token_arr, const int n_tokens, const char *output_name);
-//******************************************************************************************************************************************
 
 #endif
