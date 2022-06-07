@@ -1,0 +1,14 @@
+# Not for release
+#~~~~~~~~~~~~~~~~~~~
+Processor/Circle.txt
+Disassembler/*.txt
+#~~~~~~~~~~~~~~~~~~~
+
+# Service files
+#~~~~~~~~~~~~~~~~~~~
+*.o
+*.d
+*.out
+*.log
+*.bin
+#~~~~~~~~~~~~~~~~~~~
