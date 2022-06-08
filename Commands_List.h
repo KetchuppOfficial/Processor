@@ -204,7 +204,7 @@ while (0);
 DEFCMD_(20, write_circle, 1, 
 do
 {
-    Write_Circle (pentium, (int)*(double *)(code_arr + ip + 1));
+    Write_Circle (proc, (int)*(double *)(code_arr + ip + 1));
     ip += 1 + sizeof (double);
 }
 while (0);
