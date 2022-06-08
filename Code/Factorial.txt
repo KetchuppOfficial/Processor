@@ -1,23 +1,39 @@
-in
-pop ax
-push ax
+;~~~~~~~~~~~~~~~~~~~~~~~;    
+;       Factorial       ;
+;~~~~~~~~~~~~~~~~~~~~~~~;
 
-call one
-out
-hlt
+    in
+    pop bx
 
-one:
-push ax
-push 1
-sub
-pop ax
-push ax
-push 0
-ja two
-ret
+    push 1
+    pop ax  ; fact
 
-two:
-push ax
-mul
-call one
-ret
+    push 2
+    pop cx  ; num_i
+
+    call factorial
+    push ax
+    out
+    ret
+
+factorial:
+
+    push cx
+    push bx
+    ja return
+
+    push ax
+    push cx
+    mul
+    pop ax
+
+    push cx
+    push 1
+    add
+    pop cx
+
+    jmp factorial
+
+return:
+    ret
+    

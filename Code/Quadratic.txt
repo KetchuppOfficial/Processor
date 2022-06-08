@@ -2,13 +2,13 @@
 ; This program solves equations of type ax^2 + bx + c = 0 ;
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
 
-    push 124.1
+    in
     pop ax	; coefficient "a" in register ax
 
-    push -2345.8
+    in
     pop bx	; coefficient "b" in register bx
 
-    push 294.4
+    in
     pop cx	; coefficient "c" in register cx
 
     push ax
@@ -43,24 +43,30 @@
     push -1
     push bx
     mul
+
     push dx
     sub
+
     push 2
     push ax
     mul
+
     dvd
-    pop
+    out
 
     push -1
     push bx
     mul
+
     push dx
     add
+
     push 2
     push ax
     mul
+
     dvd
-    pop
+    out
     hlt
 
 equal_roots:
@@ -68,11 +74,14 @@ equal_roots:
     push -1
     push bx
     mul
+
     push 2
     push ax
     mul
+
     dvd
-    pop
+    
+    out
     hlt
 
 linear:
@@ -86,7 +95,7 @@ linear:
     mul
     push bx
     dvd
-    pop
+    out
     hlt
 
 only_c:
@@ -97,12 +106,12 @@ only_c:
 
 no_roots:
 
-    push 1.2345
-    pop
+    push 666
+    out
     hlt
 
 inf_roots:
 
-    push 666
-    pop
+    push 100500
+    out
     hlt
