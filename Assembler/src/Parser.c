@@ -33,9 +33,7 @@ static const char *Get_CMD_Name (const int cmd_n)
 #undef DEFCMD_
 
 static int Check_If_Push_Pop (const int cmd_num)
-{
-    printf ("cmd_num = %d\n", cmd_num);
-    
+{   
     const char *cmd_name = Get_CMD_Name (cmd_num);
     MY_ASSERT (cmd_name, "Get_CMD_Name ()", FUNC_ERROR, ERROR);
 
