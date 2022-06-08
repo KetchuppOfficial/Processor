@@ -1,6 +1,8 @@
 CC     = gcc
 CFLAGS = -Wall -Werror -Wshadow -Wfloat-equal -Wswitch-default
 
+PROJECT = Processor
+
 BIN      = ./bin/
 SRCDIR   = ./src/
 BUILDDIR = ./build/
@@ -23,7 +25,7 @@ LIBS = $(addsuffix /*.a, $(LIBSDIR))
 all: $(DEPS) $(OBJ) $(LIBSDIR)
 	@mkdir -p $(BIN)
 	@echo "Linking project..."
-	@$(CC) $(OBJ) $(LIBS) -lm -o $(BIN)Assembler.out
+	@$(CC) $(OBJ) $(LIBS) -lm -o $(BIN)$(PROJECT).out
 
 $(LIBSDIR):
 	@$(MAKE) -C $@ --no-print-directory -f Makefile.mak
@@ -45,6 +47,6 @@ $(BUILDDIR)%.d: $(SRCDIR)%.c
 clean:
 	rm -rf $(OBJ) $(DEPS)
 
-run: $(BIN)Assembler.out
+run: $(BIN)$(PROJECT).out
 	@echo "Running \"$<\"..."
-	@$(BIN)Assembler.out $(IN) $(OUT)
+	@$(BIN)$(PROJECT).out $(IN) $(OUT)
