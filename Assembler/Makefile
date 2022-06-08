@@ -1,7 +1,7 @@
 CC     = gcc
 CFLAGS = -Wall -Werror -Wshadow -Wfloat-equal -Wswitch-default
 
-PROJECT = Processor
+PROJECT = Assembler
 
 BIN      = ./bin/
 SRCDIR   = ./src/
