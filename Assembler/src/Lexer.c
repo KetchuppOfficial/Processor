@@ -340,7 +340,6 @@ static const char *Get_CMD_Name (const int cmd_n)
 
     return NULL;
 }
-
 #undef DEFCMD_
 
 static int Check_If_Jump (const int cmd_num)
