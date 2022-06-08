@@ -9,11 +9,6 @@
 #include "Stack.h"
 #include "../../My_Lib/My_Lib.h"
 
-#ifndef DEBUG
-#undef MY_ASSERT
-#define MY_ASSERT(condition, var, err_num, error) ;
-#endif
-
 struct Processor
 {
     struct Stack *stack;
