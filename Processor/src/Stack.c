@@ -221,6 +221,8 @@ int Stack_Dtor (struct Stack *stack_ptr)
 
     stack_ptr->initialized = false;
 
+    free (stack_ptr);
+
     return NO_ERRORS;
 }
 
